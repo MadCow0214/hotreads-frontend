@@ -208,11 +208,11 @@
       "active": "rgba(0, 0, 0, 0.54)"
     },
     "primary": {
-      "main": "#B71C1C",
-      "light": "rgb(197, 73, 73)",
-      "dark": "rgb(128, 19, 19)",
+      "main": "#951919",
+      "light": "rgb(170, 71, 71)",
+      "dark": "rgb(104, 17, 17)",
       "contrastText": "#fff"
     }
   },
-  "themeName": "Thunderbird Denim Colugo"
+  "themeName": "Old Brick Denim Chicken"
 }

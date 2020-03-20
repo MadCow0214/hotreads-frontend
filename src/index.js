@@ -1,3 +1,4 @@
+import "./env";
 import React from "react";
 import ReactDOM from "react-dom";
 import { ApolloProvider } from "@apollo/react-hooks";
