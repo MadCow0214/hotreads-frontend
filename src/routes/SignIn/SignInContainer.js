@@ -54,7 +54,7 @@ const SignInContainer = props => {
     }
   };
 
-  const { signIn: googleLogIn, loaded } = useGoogleLogin({
+  const { signIn: googleLogIn } = useGoogleLogin({
     clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
     cookiePolicy: "single_host_origin",
     onSuccess: onGoogleLoginSuccess,
@@ -81,7 +81,17 @@ const SignInContainer = props => {
       variables: { email: email.value, password: password.value }
     });
 
-    if (data.login.error) {
+    if (data.login.error === 1) {
+      console.log("login error!");
+      return;
+    }
+
+    if (data.login.error === 2) {
+      setVerifyEmail(email.value);
+      return;
+    }
+
+    if (data.login.error === 3) {
       console.log("login error!");
       return;
     }

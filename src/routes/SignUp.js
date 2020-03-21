@@ -124,10 +124,10 @@ const SignUp = () => {
             <Input
               className={classes.item}
               type="text"
-              placeHolder="Nickname (3-12)"
+              placeHolder="Nickname (3-10)"
               onChange={nickName.onChange}
               minLength={3}
-              maxLength={12}
+              maxLength={10}
               required
             />
             <Input

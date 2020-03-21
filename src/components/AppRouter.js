@@ -17,9 +17,9 @@ const LoggedInRoutes = () => (
     <Route path="/book/list" component={BookList} />
     <Route path="/author/:authorName" component={AuthorProfile} />
     <Route path="/book/upload" component={UploadBook} />
-    <Route path="/book/:bookTitle" component={BookProfile} />
+    <Route path="/book/:bookTitle" render={props => <BookProfile {...props} isLoggedIn={true} />} />
     <Route path="/search" component={Search} />
-    <Route path="/user/:userName" component={UserProfile} />
+    <Route path="/user/:nickName" component={UserProfile} />
     <Redirect from="*" to="/" />
   </Switch>
 );
@@ -34,7 +34,7 @@ const LoggedOutRoutes = () => {
       <Route path="/author/:authorName" component={AuthorProfile} />
       <Route path="/book/:bookName" component={BookProfile} />
       <Route path="/search" component={Search} />
-      <Route path="/user/:userName" component={UserProfile} />
+      <Route path="/user/:nickName" component={UserProfile} />
       <Redirect from="*" to="/" />
     </Switch>
   );

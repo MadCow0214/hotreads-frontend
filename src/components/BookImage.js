@@ -6,6 +6,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 
 const getWidth = size => {
+  if (size === "sm") {
+    return 120;
+  }
   if (size === "md") {
     return 160;
   }
@@ -16,6 +19,9 @@ const getWidth = size => {
 };
 
 const getHeight = size => {
+  if (size === "sm") {
+    return 180;
+  }
   if (size === "md") {
     return 240;
   }
@@ -30,7 +36,8 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     width: props => getWidth(props.size) + 2,
     height: props => getHeight(props.size) + 2,
-    border: "1px solid rgba(0,0,0,0.25)"
+    border: "1px solid rgba(0,0,0,0.25)",
+    background: "white"
   },
   gradient: {
     position: "absolute",
@@ -43,13 +50,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BookImage = ({ src, size }) => {
+const BookImage = ({ src, size, className }) => {
   const classes = useStyles({ size });
 
   return (
-    <Box className={classes.root}>
-      <img src={src} alt="" width={getWidth(size)} height={getHeight(size)} />
-      <div className={classes.gradient} />
+    <Box className={`${classes.root} ${className}`}>
+      {src && (
+        <>
+          <img src={src} alt="" width={getWidth(size)} height={getHeight(size)} />
+          <div className={classes.gradient} />
+        </>
+      )}
     </Box>
   );
 };

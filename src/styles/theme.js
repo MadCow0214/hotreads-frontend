@@ -23,6 +23,9 @@ const theme = createMuiTheme({
         }
       }
     }
+  },
+  typography: {
+    fontFamily: ["Roboto", "Nanum Gothic", "Helvetica", "Arial", "sans-serif"].join(",")
   }
 });
 

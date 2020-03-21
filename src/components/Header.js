@@ -1,29 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { gql } from "apollo-boost";
-import { withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
-// hooks
-import { useQuery } from "@apollo/react-hooks";
-
 // components
-import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Input from "./Input";
 import Link from "@material-ui/core/Link";
 import { LogoIcon, LogoText } from "./Icons";
-import { Typography } from "@material-ui/core";
-
-const ME = gql`
-  query me {
-    me {
-      avatar
-      nickName
-    }
-  }
-`;
+import UserMenu from "./UserMenu";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,7 +24,8 @@ const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    padding: 0
   },
   column: {
     display: "flex",
@@ -68,21 +54,11 @@ const useStyles = makeStyles(theme => ({
     "&:hover": {
       cursor: "pointer"
     }
-  },
-  avatar: {
-    width: theme.spacing(4),
-    height: theme.spacing(4),
-    marginRight: "5px"
   }
 }));
 
 const Header = ({ isLoggedIn }) => {
   const classes = useStyles();
-  let meData;
-
-  if (isLoggedIn) {
-    const { data } = useQuery(ME);
-  }
 
   return (
     <div className={classes.root}>
@@ -97,14 +73,7 @@ const Header = ({ isLoggedIn }) => {
           <Input className={classes.searchInput} placeHolder="제목/저자" />
         </Box>
         <Box className={classes.column}>
-          {isLoggedIn && (
-            <>
-              <Avatar className={classes.avatar} src={loading ? "" : data.me.avatar} />
-              <Typography className={classes.loginText}>
-                {loading ? "" : data.me.nickName}
-              </Typography>
-            </>
-          )}
+          {isLoggedIn && <UserMenu />}
           {!isLoggedIn && (
             <Link className={classes.loginText} href="/signin" underline="hover">
               로그인
@@ -124,4 +93,4 @@ Header.defaultProps = {
   isLoggedIn: false
 };
 
-export default withRouter(Header);
+export default Header;
