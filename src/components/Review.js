@@ -1,6 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
+import { formatDate } from "../util";
 
 // components
 import Rating from "@material-ui/lab/Rating";
@@ -26,13 +26,17 @@ const useStyles = makeStyles(theme => ({
       marginLeft: "auto"
     }
   },
+  userName: {
+    fontSize: "14px",
+    fontWeight: "600"
+  },
   text: {
     padding: "0 20px"
   },
   user: {
     display: "flex",
     alignItems: "center",
-    marginBottom: "5px"
+    width: "110px"
   },
   avatar: {
     width: theme.spacing(3),
@@ -51,25 +55,28 @@ const Review = ({ review }) => {
     <div className={classes.root}>
       <Box className={classes.reviewColumn}>
         <div className={classes.user}>
-          <Avartar className={classes.avatar} />
-          <Typography variant="subtitle2" noWrap>
-            손한성
+          <Avartar className={classes.avatar} src={review.user.avatar} />
+          <Typography className={classes.userName} variant="subtitle2" component="div" noWrap>
+            {review.user.nickName}
           </Typography>
         </div>
         <Typography variant="caption" component="div">
-          2020.03.21
+          {formatDate(review.createdAt)}
         </Typography>
       </Box>
       <div className={classes.reviewColumn}>
         <Typography className={classes.text} variant="body1" component="div">
-          책 아주 재밌어요책 아주 재밌어요책 아주 재밌어요책 아주 재밌어요책 아주 재밌어요책 아주
-          재밌어요책 아주 재밌어요책 아주 재밌어요책 아주 재밌어요책 아주 재밌어요책 아주 재밌어요책
-          아주 재밌어요책 아주 재밌어요책 아주 재밌어요책 아주 재밌어요책 아주 재밌어요책 아주
-          재밌어요책 아주 재밌어요책 아주 재밌어요
+          {review.text}
         </Typography>
       </div>
       <div className={classes.reviewColumn}>
-        <Rating className={classes.star} size="small" readOnly />
+        <Rating
+          value={review.star}
+          precision={0.5}
+          className={classes.star}
+          size="small"
+          readOnly
+        />
       </div>
     </div>
   );

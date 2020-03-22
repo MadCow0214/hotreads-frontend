@@ -22,6 +22,7 @@ export const BOOK_BY_TITLE = gql`
       desc
       publishDate
       wantedUserCount
+      isWanted
       reviews {
         id
         user {
@@ -33,6 +34,22 @@ export const BOOK_BY_TITLE = gql`
         star
         createdAt
       }
+    }
+  }
+`;
+
+export const ADD_REVIEW = gql`
+  mutation addReview($bookId: String!, $text: String, $star: Int!) {
+    addReview(bookId: $bookId, text: $text, star: $star) {
+      id
+      user {
+        id
+        nickName
+        avatar
+      }
+      text
+      star
+      createdAt
     }
   }
 `;

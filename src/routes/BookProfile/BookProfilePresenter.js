@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     maxWidth: 800,
+    width: "100%",
     padding: "0 20px"
   },
   bookInfo: {
@@ -39,13 +40,30 @@ const useStyles = makeStyles(theme => ({
   category: {
     marginBottom: "20px"
   },
-  rating: {
+  ratingContainer: {
     display: "flex",
-    margin: "20px 0px"
+    margin: "20px 0px",
+    alignItems: "flex-end"
+  },
+  rating: {
+    paddingBottom: "3px",
+    marginRight: "5px"
+  },
+  avgStar: {
+    fontWeight: "600",
+    marginRight: "5px"
+  },
+  starCount: {
+    fontSize: "14px"
   },
   flex: {
-    display: "flex"
+    display: "flex",
+    alignItems: "flex-end",
+    "&:last-child": {
+      marginTop: "auto"
+    }
   },
+
   author: {
     marginRight: "5px",
     fontWeight: 700
@@ -58,11 +76,11 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     alignItems: "center",
     background: "white",
-    width: "48px",
-    height: "48px",
+    width: "36px",
+    height: "36px",
     borderRadius: "5px",
-    border: "1px solid rgba(0,0,0,0.25)",
-    marginTop: "auto",
+    marginRight: "5px",
+    border: `1px solid rgba(0,0,0,0.25)`,
     "&:hover": {
       cursor: "pointer"
     }
@@ -77,6 +95,9 @@ const useStyles = makeStyles(theme => ({
   sliderElement: {
     margin: "auto"
   },
+  tabPanel: {
+    minHeight: "240px"
+  },
   writeReviewContainer: {
     display: "flex",
     alignItems: "center"
@@ -86,11 +107,20 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     height: "80px",
     margin: "0 10px",
-    fontSize: "16px"
+    fontSize: "16px",
+    borderRadius: "5px",
+    "&:focus": {
+      outline: "none"
+    }
   },
   reviewList: {
     listStyleType: "none",
     padding: "25px 0"
+  },
+  NoReview: {
+    padding: "25px 0",
+    width: "100%",
+    textAlign: "center"
   }
 }));
 
@@ -104,19 +134,29 @@ const TabPanel = props => {
   );
 };
 
-const BookProfilePresenter = ({ isLoggedIn, book, tabIndex, handleTabChange }) => {
+const BookProfilePresenter = ({
+  isLoggedIn,
+  book,
+  tabIndex,
+  handleTabChange,
+  star,
+  onStarChange,
+  reviewText,
+  onReviewTextChange,
+  onReviewSubmit
+}) => {
   const classes = useStyles();
 
   const sliderSettings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: book.author?.books?.length || 0,
+    slidesToScroll: book.author?.books?.length || 0,
     arrows: false
   };
 
-  const calAvgStar = reviews => reviews.reduce((p, c) => p + c.star, 0) / reviews.length;
+  const avgStar = book.reviews.reduce((p, c) => p + c.star, 0) / book.reviews.length;
 
   return (
     <div className={classes.root}>
@@ -131,14 +171,17 @@ const BookProfilePresenter = ({ isLoggedIn, book, tabIndex, handleTabChange }) =
               {book.title}
             </Typography>
             {book.subTitle && (
-              <Typography className={classes.subTitle} variant="subtitle1" component="div">
+              <Typography variant="subtitle1" component="div">
                 {book.subTitle}
               </Typography>
             )}
 
-            <Box className={classes.rating}>
-              <Rating name="read-only" value={calAvgStar(book.reviews)} precision={0.5} readOnly />
-              <Typography className={classes.subTitle} variant="subtitle1" component="div">
+            <Box className={classes.ratingContainer}>
+              <Rating className={classes.rating} value={avgStar} precision={0.5} readOnly />
+              <Typography className={classes.avgStar} variant="body1" component="span">
+                {avgStar.toFixed(1)}
+              </Typography>
+              <Typography className={classes.starCount} variant="body1" component="span">
                 ({book.reviews.length})
               </Typography>
             </Box>
@@ -146,19 +189,26 @@ const BookProfilePresenter = ({ isLoggedIn, book, tabIndex, handleTabChange }) =
               <Typography className={classes.author} variant="subtitle1" component="div">
                 {book.author.name}
               </Typography>
-              <Typography variant="subtitle1">저</Typography>
+              <Typography variant="subtitle1" component="div">
+                저
+              </Typography>
             </Box>
             <Box className={classes.flex}>
-              <Typography className={classes.publisher} variant="subtitle2" component="div">
+              <Typography className={classes.publisher} variant="subtitle2" component="span">
                 {book.company}
               </Typography>
-              <Typography variant="p" component="span">
-                , {formatDate(new Date(book.publishDate))}
+              <Typography variant="caption" component="span">
+                , {formatDate(book.publishDate)}
               </Typography>
             </Box>
-            <div className={classes.wantedButton}>
-              <BookmarkBorderIcon color="primary" fontSize="large" />
-            </div>
+            <Box className={classes.flex}>
+              <div className={classes.wantedButton}>
+                <BookmarkBorderIcon color="primary" fontSize="large" />
+              </div>
+              <Typography variant="caption" component="span">
+                {book.wantedUserCount}명이 이 책을 읽고 싶어합니다!
+              </Typography>
+            </Box>
           </Box>
         </Box>
         <Box className={classes.menuTitle}>
@@ -171,7 +221,7 @@ const BookProfilePresenter = ({ isLoggedIn, book, tabIndex, handleTabChange }) =
         </Typography>
         <Box className={classes.menuTitle}>
           <Typography variant="h5" component="div">
-            저자
+            {`저자 - ${book.author ? book.author.name : "미상"}`}
           </Typography>
         </Box>
         <Typography variant="body1" component="div">
@@ -186,13 +236,18 @@ const BookProfilePresenter = ({ isLoggedIn, book, tabIndex, handleTabChange }) =
             <Tab label="프로필" />
             <Tab label="저서" />
           </Tabs>
-          <TabPanel value={tabIndex} index={0}>
+          <TabPanel className={classes.tabPanel} value={tabIndex} index={0}>
             {book.author.desc}
           </TabPanel>
-          <TabPanel value={tabIndex} index={1}>
+          <TabPanel className={classes.tabPanel} value={tabIndex} index={1}>
             <Slider {...sliderSettings}>
               {book.author?.books?.map(book => (
-                <BookImage className={classes.sliderElement} src={book.image} size="sm" />
+                <BookImage
+                  key={book.id}
+                  className={classes.sliderElement}
+                  src={book.image}
+                  size="sm"
+                />
               ))}
             </Slider>
           </TabPanel>
@@ -202,12 +257,20 @@ const BookProfilePresenter = ({ isLoggedIn, book, tabIndex, handleTabChange }) =
             리뷰
           </Typography>
         </Box>
-        <form className={classes.writeReviewContainer}>
-          <Rating name="star" disabled={!isLoggedIn} />
+        <form className={classes.writeReviewContainer} onSubmit={onReviewSubmit}>
+          <Rating
+            name="star"
+            value={star}
+            precision={1}
+            onChange={onStarChange}
+            disabled={!isLoggedIn}
+          />
           <textarea
             className={classes.reviewTextArea}
             disabled={!isLoggedIn}
             maxLength="200"
+            onChange={onReviewTextChange}
+            value={reviewText}
             placeholder={
               isLoggedIn ? "리뷰를 작성해 주세요" : "리뷰를 작성하시려면 로그인 해주세요"
             }
@@ -216,17 +279,24 @@ const BookProfilePresenter = ({ isLoggedIn, book, tabIndex, handleTabChange }) =
             등록
           </Button>
         </form>
-        <ul className={classes.reviewList}>
-          <li>
-            <Review />
-          </li>
-          <li>
-            <Review />
-          </li>
-          <li>
-            <Review />
-          </li>
-        </ul>
+        {book.reviews?.length > 0 && (
+          <ul className={classes.reviewList}>
+            {book.reviews
+              ?.sort((r, l) => {
+                return new Date(l.createdAt) - new Date(r.createdAt);
+              })
+              .map(review => (
+                <li key={review.id}>
+                  <Review review={review} />
+                </li>
+              ))}
+          </ul>
+        )}
+        {book.reviews?.length <= 0 && (
+          <Typography className={classes.NoReview} variant="body1" component="div">
+            리뷰가 없습니다.
+          </Typography>
+        )}
       </div>
     </div>
   );
