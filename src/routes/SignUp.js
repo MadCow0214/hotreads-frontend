@@ -98,7 +98,7 @@ const SignUp = () => {
             <Input
               className={classes.item}
               type="email"
-              placeHolder="Email"
+              placeHolder="이메일"
               onChange={email.onChange}
               maxLength={30}
               required
@@ -106,7 +106,7 @@ const SignUp = () => {
             <Input
               className={classes.item}
               type="password"
-              placeHolder="Password (8-20)"
+              placeHolder="비밀번호 (8-20)"
               onChange={password1.onChange}
               minLength={8}
               maxLength={20}
@@ -115,7 +115,7 @@ const SignUp = () => {
             <Input
               className={classes.item}
               type="password"
-              placeHolder="Verify Password"
+              placeHolder="비밀번호 확인"
               onChange={password2.onChange}
               minLength={8}
               maxLength={20}
@@ -124,7 +124,7 @@ const SignUp = () => {
             <Input
               className={classes.item}
               type="text"
-              placeHolder="Nickname (3-10)"
+              placeHolder="닉네임 (3-10)"
               onChange={nickName.onChange}
               minLength={3}
               maxLength={10}
@@ -133,14 +133,14 @@ const SignUp = () => {
             <Input
               className={classes.item}
               type="text"
-              placeHolder="First Name"
+              placeHolder="이름"
               onChange={firstName.onChange}
               maxLength={30}
             />
             <Input
               className={classes.item}
               type="text"
-              placeHolder="Last Name"
+              placeHolder="성"
               onChange={lastName.onChange}
               maxLength={30}
             />

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
 import { makeStyles } from "@material-ui/core/styles";
+import { LOCAL_LOG_IN } from "../sharedQueries";
 
 //hooks
 import useInput from "../hooks/useInput";
@@ -48,6 +49,7 @@ const VerifyUser = ({ email }) => {
     variables: { email, verifyCode: verifyCode.value }
   });
   const [verifyMailMutation] = useMutation(REQUSET_VERIFY_MAIL, { variables: { email } });
+  const [localLoginMutation] = useMutation(LOCAL_LOG_IN);
 
   const onSubmit = async e => {
     e.preventDefault();
@@ -55,9 +57,11 @@ const VerifyUser = ({ email }) => {
     const { data } = await verifyUserMutation();
 
     if (data.verifyUser.error) {
+      console.log("verifyUser error");
+      return;
     }
 
-    //로그인
+    localLoginMutation({ variables: { token: data.verifyUser.token } });
   };
 
   return (

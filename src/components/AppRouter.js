@@ -32,7 +32,7 @@ const LoggedOutRoutes = () => {
       <Route path="/signup" component={SignUp} />
       <Route path="/book/list" component={BookList} />
       <Route path="/author/:authorName" component={AuthorProfile} />
-      <Route path="/book/:bookName" component={BookProfile} />
+      <Route path="/book/:bookTitle" component={BookProfile} />
       <Route path="/search" component={Search} />
       <Route path="/user/:nickName" component={UserProfile} />
       <Redirect from="*" to="/" />

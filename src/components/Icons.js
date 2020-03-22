@@ -34,14 +34,14 @@ export const LogoText = () => (
   </svg>
 );
 
-export const LogoIcon = () => (
+export const LogoIcon = ({ color }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     width="50"
     height="80"
     viewBox="120 340 220 350"
-    fill="#FFFFFF"
+    fill={color ? color : "white"}
   >
     <desc>Created with Fabric.js 3.1.0</desc>
     <defs></defs>

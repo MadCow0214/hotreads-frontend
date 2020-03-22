@@ -48,14 +48,14 @@ const SignInPresenter = ({
             <Input
               className={classes.item}
               type="email"
-              placeHolder="Email"
+              placeHolder="이메일"
               maxLength={30}
               onChange={onEmailChange}
             />
             <Input
               className={classes.item}
               type="password"
-              placeHolder="Password"
+              placeHolder="비밀번호"
               minLength={8}
               maxLength={20}
               onChange={onPasswordChange}

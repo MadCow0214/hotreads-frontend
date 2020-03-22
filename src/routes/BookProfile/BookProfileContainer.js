@@ -6,6 +6,9 @@ import { ME } from "../../sharedQueries";
 // hooks
 import { useQuery } from "@apollo/react-hooks";
 
+// components
+import Loader from "../../components/Loader";
+
 const BookProfileContainer = ({
   match: {
     params: { bookTitle }
@@ -15,7 +18,6 @@ const BookProfileContainer = ({
   const { data: bookData, loading: bookLoading } = useQuery(BOOK_BY_TITLE, {
     variables: { title: bookTitle }
   });
-
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -23,12 +25,17 @@ const BookProfileContainer = ({
   };
 
   return (
-    <BookProfilePresenter
-      isLoggedIn={isLoggedIn}
-      book={bookData?.bookByTitle}
-      tabIndex={tabIndex}
-      handleTabChange={handleTabChange}
-    />
+    <>
+      {bookLoading && <Loader />}
+      {!bookLoading && (
+        <BookProfilePresenter
+          isLoggedIn={isLoggedIn}
+          book={bookData?.bookByTitle}
+          tabIndex={tabIndex}
+          handleTabChange={handleTabChange}
+        />
+      )}
+    </>
   );
 };
 

@@ -8,3 +8,9 @@ export const ME = gql`
     }
   }
 `;
+
+export const LOCAL_LOG_IN = gql`
+  mutation localLogIn($token: String!) {
+    localLogIn(token: $token) @client
+  }
+`;

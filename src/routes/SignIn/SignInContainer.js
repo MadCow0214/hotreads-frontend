@@ -3,6 +3,8 @@ import { withRouter } from "react-router-dom";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
 
+import { LOCAL_LOG_IN } from "../../sharedQueries";
+
 import SignInPresenter from "./SignInPresenter";
 import { useGoogleLogin } from "react-google-login";
 import useInput from "../../hooks/useInput";
@@ -19,12 +21,6 @@ const LOGIN = gql`
       error
       token
     }
-  }
-`;
-
-export const LOCAL_LOG_IN = gql`
-  mutation localLogIn($token: String!) {
-    localLogIn(token: $token) @client
   }
 `;
 
@@ -87,12 +83,12 @@ const SignInContainer = props => {
     }
 
     if (data.login.error === 2) {
-      setVerifyEmail(email.value);
+      console.log("login error!");
       return;
     }
 
     if (data.login.error === 3) {
-      console.log("login error!");
+      setVerifyEmail(email.value);
       return;
     }
 
