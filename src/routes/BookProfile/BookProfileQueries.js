@@ -53,3 +53,19 @@ export const ADD_REVIEW = gql`
     }
   }
 `;
+
+export const TOGGLE_WANTED = gql`
+  mutation toggleWanted($bookId: String!, $curState: Boolean!) {
+    toggleWanted(bookId: $bookId, curState: $curState)
+  }
+`;
+
+export const REVIEWS_CACHE_FRAGMENT = gql`
+  fragment reviewedBook on Book {
+    reviews {
+      id
+      __typename
+    }
+    __typename
+  }
+`;

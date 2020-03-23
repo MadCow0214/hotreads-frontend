@@ -10,6 +10,35 @@ const theme = createMuiTheme({
   themeName,
   palette,
   overrides: {
+    MuiSelect: {
+      select: {
+        "&:focus": {
+          backgroundColor: "white"
+        }
+      }
+    },
+    MuiAutocomplete: {
+      inputRoot: {
+        paddingTop: "14px  !important"
+      }
+    },
+    MuiInput: {
+      input: { padding: 0 }
+    },
+    MuiFilledInput: {
+      root: {
+        backgroundColor: "white",
+        border: "1px solid rgba(0,0,0,0.25)",
+        borderRadius: "5px",
+        height: "48px",
+        "&$focused": {
+          backgroundColor: "white"
+        },
+        "&:hover": {
+          backgroundColor: "white"
+        }
+      }
+    },
     MuiInputLabel: {
       root: {
         "&$focused": {
@@ -17,9 +46,9 @@ const theme = createMuiTheme({
         }
       },
       filled: {
-        transform: "translate(12px, 17px) scale(1)",
+        transform: "translate(12px, 18px) scale(1)",
         "&$shrink": {
-          transform: "translate(12px, 5px) scale(0.75)"
+          transform: "translate(12px, 8px) scale(0.75)"
         }
       }
     }

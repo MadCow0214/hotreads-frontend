@@ -11,7 +11,7 @@ import useInput from "../hooks/useInput";
 //components
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-import Input from "../components/Input";
+import Input from "./Input";
 
 const VERIFY_USER = gql`
   mutation verifyUser($email: String!, $verifyCode: String!) {
@@ -70,7 +70,7 @@ const VerifyUser = ({ email }) => {
         <Input
           className={classes.item}
           type="text"
-          placeHolder="Verify Code"
+          label="Verify Code"
           onChange={verifyCode.onChange}
           required
         />

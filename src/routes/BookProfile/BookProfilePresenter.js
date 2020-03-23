@@ -8,19 +8,19 @@ import BookImage from "../../components/BookImage";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Rating from "@material-ui/lab/Rating";
-import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
-import BookmarkIcon from "@material-ui/icons/Bookmark";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Slider from "react-slick";
 import Button from "@material-ui/core/Button";
 import Review from "../../components/Review";
+import BookmarkButton from "../../components/BookmarkButton";
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     justifyContent: "center",
     background: theme.palette.grey[200],
+    width: "100%",
     minHeight: "100vh",
     paddingTop: "140px"
   },
@@ -71,19 +71,8 @@ const useStyles = makeStyles(theme => ({
   publisher: {
     fontWeight: 700
   },
-  wantedButton: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "white",
-    width: "36px",
-    height: "36px",
-    borderRadius: "5px",
-    marginRight: "5px",
-    border: `1px solid rgba(0,0,0,0.25)`,
-    "&:hover": {
-      cursor: "pointer"
-    }
+  bookmarkButton: {
+    marginRight: "5px"
   },
   menuTitle: {
     marginTop: "40px",
@@ -137,6 +126,9 @@ const TabPanel = props => {
 const BookProfilePresenter = ({
   isLoggedIn,
   book,
+  isWanted,
+  wantedCount,
+  onBookmarkClick,
   tabIndex,
   handleTabChange,
   star,
@@ -156,7 +148,9 @@ const BookProfilePresenter = ({
     arrows: false
   };
 
-  const avgStar = book.reviews.reduce((p, c) => p + c.star, 0) / book.reviews.length;
+  const avgStar = book.reviews.length
+    ? book.reviews.reduce((p, c) => p + c.star, 0) / book.reviews.length
+    : 0;
 
   return (
     <div className={classes.root}>
@@ -189,9 +183,6 @@ const BookProfilePresenter = ({
               <Typography className={classes.author} variant="subtitle1" component="div">
                 {book.author.name}
               </Typography>
-              <Typography variant="subtitle1" component="div">
-                저
-              </Typography>
             </Box>
             <Box className={classes.flex}>
               <Typography className={classes.publisher} variant="subtitle2" component="span">
@@ -202,11 +193,13 @@ const BookProfilePresenter = ({
               </Typography>
             </Box>
             <Box className={classes.flex}>
-              <div className={classes.wantedButton}>
-                <BookmarkBorderIcon color="primary" fontSize="large" />
-              </div>
+              <BookmarkButton
+                className={classes.bookmarkButton}
+                marked={isWanted}
+                onClick={onBookmarkClick}
+              />
               <Typography variant="caption" component="span">
-                {book.wantedUserCount}명이 이 책을 읽고 싶어합니다!
+                {wantedCount}명이 이 책을 읽고 싶어합니다!
               </Typography>
             </Box>
           </Box>
@@ -272,7 +265,9 @@ const BookProfilePresenter = ({
             onChange={onReviewTextChange}
             value={reviewText}
             placeholder={
-              isLoggedIn ? "리뷰를 작성해 주세요" : "리뷰를 작성하시려면 로그인 해주세요"
+              isLoggedIn
+                ? "리뷰를 작성해 주세요 (최대 200자)"
+                : "리뷰를 작성하시려면 로그인 해주세요"
             }
           ></textarea>
           <Button type="submit" variant="contained" color="primary" disabled={!isLoggedIn}>
@@ -294,7 +289,7 @@ const BookProfilePresenter = ({
         )}
         {book.reviews?.length <= 0 && (
           <Typography className={classes.NoReview} variant="body1" component="div">
-            리뷰가 없습니다.
+            리뷰가 없습니다
           </Typography>
         )}
       </div>

@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { gql } from "apollo-boost";
 import BookProfilePresenter from "./BookProfilePresenter";
-import { BOOK_BY_TITLE, ADD_REVIEW } from "./BookProfileQueries";
+import {
+  BOOK_BY_TITLE,
+  ADD_REVIEW,
+  TOGGLE_WANTED,
+  REVIEWS_CACHE_FRAGMENT
+} from "./BookProfileQueries";
 
 // hooks
 import { useQuery, useMutation } from "@apollo/react-hooks";
@@ -10,6 +14,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import Loader from "../../components/Loader";
 
 const BookProfileContainer = ({
+  history,
   match: {
     params: { bookTitle }
   },
@@ -18,8 +23,20 @@ const BookProfileContainer = ({
   const [tabIndex, setTabIndex] = useState(0);
   const [star, setStar] = useState(0);
   const [reviewText, setReviewText] = useState("");
+  const [wanted, setWanted] = useState(false);
+  const [wantedCount, setWantedCount] = useState(0);
   const { data: bookData, loading: bookLoading } = useQuery(BOOK_BY_TITLE, {
-    variables: { title: bookTitle }
+    variables: { title: bookTitle },
+    onCompleted: data => {
+      setWanted(data.bookByTitle.isWanted);
+      setWantedCount(data.bookByTitle.wantedUserCount);
+    }
+  });
+  const [toggleWantedMutation, { loading: togglingWanted }] = useMutation(TOGGLE_WANTED, {
+    variables: {
+      bookId: bookData?.bookByTitle.id,
+      curState: wanted
+    }
   });
   const [addReviewMutation, { loading: addingReview }] = useMutation(ADD_REVIEW, {
     variables: {
@@ -28,21 +45,14 @@ const BookProfileContainer = ({
       star: star
     },
     update: (store, { data: { addReview } }) => {
-      const fragment = gql`
-        fragment reviewedBook on Book {
-          reviews {
-            id
-            __typename
-          }
-          __typename
-        }
-      `;
-
-      const data = store.readFragment({ id: "Book:" + bookData.bookByTitle.id, fragment });
+      const data = store.readFragment({
+        id: "Book:" + bookData.bookByTitle.id,
+        fragment: REVIEWS_CACHE_FRAGMENT
+      });
 
       store.writeFragment({
         id: "Book:" + bookData.bookByTitle.id,
-        fragment,
+        fragment: REVIEWS_CACHE_FRAGMENT,
         data: {
           reviews: [...data.reviews, addReview],
           __typename: data.__typename
@@ -50,6 +60,34 @@ const BookProfileContainer = ({
       });
     }
   });
+
+  if (!bookLoading && !bookData) {
+    history.push("/");
+    return null;
+  }
+
+  const onBookmarkClick = event => {
+    event.preventDefault();
+
+    if (!isLoggedIn) {
+      console.log("please log in!");
+      return;
+    }
+
+    if (bookLoading) {
+      console.log("wait!");
+      return;
+    }
+
+    if (togglingWanted) {
+      console.log("wait!");
+      return;
+    }
+
+    toggleWantedMutation();
+    setWanted(!wanted);
+    setWantedCount(wanted ? wantedCount - 1 : wantedCount + 1);
+  };
 
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
@@ -88,6 +126,9 @@ const BookProfileContainer = ({
         <BookProfilePresenter
           isLoggedIn={isLoggedIn}
           book={bookData?.bookByTitle}
+          isWanted={wanted}
+          wantedCount={wantedCount}
+          onBookmarkClick={onBookmarkClick}
           tabIndex={tabIndex}
           handleTabChange={handleTabChange}
           star={star}

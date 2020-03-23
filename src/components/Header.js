@@ -70,7 +70,7 @@ const Header = ({ isLoggedIn }) => {
           </Link>
         </Box>
         <Box className={classes.column}>
-          <Input className={classes.searchInput} placeHolder="제목/저자" />
+          <Input className={classes.searchInput} label="제목/저자" />
         </Box>
         <Box className={classes.column}>
           {isLoggedIn && <UserMenu />}
