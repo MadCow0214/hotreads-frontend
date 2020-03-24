@@ -5,7 +5,7 @@ export const BOOK_BY_TITLE = gql`
     bookByTitle(title: $title) {
       id
       title
-      subTitle
+      subtitle
       category
       author {
         id

@@ -14,3 +14,12 @@ export const LOCAL_LOG_IN = gql`
     localLogIn(token: $token) @client
   }
 `;
+
+export const SEARCH_AUTHOR = gql`
+  query searchAuthor($term: String!, $count: Int!) {
+    searchAuthor(term: $term, count: $count) {
+      id
+      name
+    }
+  }
+`;

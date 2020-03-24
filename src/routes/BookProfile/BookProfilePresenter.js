@@ -96,6 +96,7 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     height: "80px",
     margin: "0 10px",
+    padding: "10px",
     fontSize: "16px",
     borderRadius: "5px",
     "&:focus": {
@@ -117,7 +118,13 @@ const TabPanel = props => {
   const { children, value, index, ...other } = props;
 
   return (
-    <Typography component="div" role="tabpanel" hidden={value !== index} {...other}>
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      style={{ whiteSpace: "pre-line" }}
+      {...other}
+    >
       {value === index && <Box p={3}>{children}</Box>}
     </Typography>
   );
@@ -139,12 +146,13 @@ const BookProfilePresenter = ({
 }) => {
   const classes = useStyles();
 
+  const sliderLength = book.author?.books?.length || 0;
   const sliderSettings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: book.author?.books?.length || 0,
-    slidesToScroll: book.author?.books?.length || 0,
+    slidesToShow: Math.min(4, sliderLength),
+    slidesToScroll: Math.min(4, sliderLength),
     arrows: false
   };
 
@@ -164,9 +172,9 @@ const BookProfilePresenter = ({
             <Typography variant="h4" component="div">
               {book.title}
             </Typography>
-            {book.subTitle && (
+            {book.subtitle && (
               <Typography variant="subtitle1" component="div">
-                {book.subTitle}
+                {book.subtitle}
               </Typography>
             )}
 
@@ -209,7 +217,7 @@ const BookProfilePresenter = ({
             책 소개
           </Typography>
         </Box>
-        <Typography variant="body1" component="div">
+        <Typography variant="body1" component="div" style={{ whiteSpace: "pre-line" }}>
           <Box p={3}>{book.desc}</Box>
         </Typography>
         <Box className={classes.menuTitle}>

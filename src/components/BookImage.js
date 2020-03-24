@@ -50,14 +50,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BookImage = ({ src, size, className }) => {
+const BookImage = ({ id, src, size, className }) => {
   const classes = useStyles({ size });
 
   return (
     <Box className={`${classes.root} ${className}`}>
       {src && (
         <>
-          <img src={src} alt="" width={getWidth(size)} height={getHeight(size)} />
+          <img id={id} src={src} alt="" width={getWidth(size)} height={getHeight(size)} />
           <div className={classes.gradient} />
         </>
       )}
@@ -66,7 +66,10 @@ const BookImage = ({ src, size, className }) => {
 };
 
 BookImage.propTypes = {
-  size: PropTypes.oneOf(["sm", "md", "lg"])
+  id: PropTypes.string,
+  src: PropTypes.string,
+  size: PropTypes.oneOf(["sm", "md", "lg"]),
+  className: PropTypes.string
 };
 
 BookImage.defaultProps = {

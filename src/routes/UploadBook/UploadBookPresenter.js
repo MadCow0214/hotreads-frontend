@@ -81,16 +81,47 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const UploadBookPresenter = () => {
+const UploadBookPresenter = ({
+  image,
+  setImage,
+  setCategory,
+  titleInput,
+  subtitleInput,
+  companyInput,
+  date,
+  setDate,
+  setAuthor,
+  descInput,
+  onSubmit
+}) => {
   const classes = useStyles();
   const inputFile = useRef(null);
+
+  const onImageSelected = event => {
+    if (event.target?.files?.length) {
+      setImage(event.target.files[0]);
+    }
+  };
+
+  let displayImageSrc = "";
+  if (image) {
+    displayImageSrc = URL.createObjectURL(image);
+  }
+
   return (
     <div className={classes.root}>
-      <form className={classes.container}>
+      <form className={classes.container} onSubmit={onSubmit}>
         <div className={classes.basicInfo}>
           <div className={classes.ImageUploaderContainer}>
-            <BookImage size="lg" />
-            <input id="myInput" type="file" ref={inputFile} style={{ display: "none" }} />
+            <BookImage src={displayImageSrc} size="lg" />
+            <input
+              id="imageInput"
+              type="file"
+              accept="image"
+              onChange={onImageSelected}
+              ref={inputFile}
+              style={{ display: "none" }}
+            />
             <Button
               className={classes.ImageSelectButton}
               variant="contained"
@@ -101,31 +132,39 @@ const UploadBookPresenter = () => {
             </Button>
           </div>
           <div className={classes.basicInfoInputs}>
-            <CategorySelector value={0} />
-            <Input label="제목" required />
-            <Input label="부제" />
+            <CategorySelector onChange={setCategory} />
+            <Input label="제목" onChange={titleInput.onChange} required />
+            <Input label="부제" onChange={subtitleInput.onChange} />
             <div className={classes.publish}>
-              <Input label="출판사" required />
+              <Input label="출판사" onChange={companyInput.onChange} required />
               <div className={classes.dateContainer}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <DatePicker
                     className={classes.publishDatePicker}
-                    disableToolbar
+                    openTo="year"
+                    autoOk
                     format="yyyy/MM/dd"
                     id="date-picker-inline"
                     label="출간일"
+                    value={date}
+                    onChange={setDate}
                     maxDate={new Date()}
                     variant="filled"
                     InputProps={{ disableUnderline: true }}
-                    DialogProps={{ okLabel: "확인", cancelLabel: "취소", disableScrollLock: true }}
+                    DialogProps={{ disableScrollLock: true }}
                   />
                 </MuiPickersUtilsProvider>
               </div>
             </div>
-            <AuthorSelector />
+            <AuthorSelector onChange={setAuthor} />
           </div>
         </div>
-        <TextariaAutosize className={classes.descTextArea} placeholder="책 소개" maxLength={4000} />
+        <TextariaAutosize
+          className={classes.descTextArea}
+          placeholder="책 소개"
+          onChange={descInput.onChange}
+          maxLength={4000}
+        />
         <Button className={classes.submitButton} type="submit" variant="contained" color="primary">
           업로드
         </Button>
