@@ -6,6 +6,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 
 const getWidth = size => {
+  if (size === "xs") {
+    return 60;
+  }
   if (size === "sm") {
     return 120;
   }
@@ -19,6 +22,9 @@ const getWidth = size => {
 };
 
 const getHeight = size => {
+  if (size === "xs") {
+    return 90;
+  }
   if (size === "sm") {
     return 180;
   }
@@ -68,7 +74,7 @@ const BookImage = ({ id, src, size, className }) => {
 BookImage.propTypes = {
   id: PropTypes.string,
   src: PropTypes.string,
-  size: PropTypes.oneOf(["sm", "md", "lg"]),
+  size: PropTypes.oneOf(["xs", "sm", "md", "lg"]),
   className: PropTypes.string
 };
 

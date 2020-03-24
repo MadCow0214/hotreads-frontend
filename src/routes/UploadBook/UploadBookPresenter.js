@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     justifyContent: "center",
-    background: theme.palette.grey[200],
+    background: theme.palette.grey[100],
     width: "100%",
     minHeight: "100vh",
     paddingTop: "140px"
@@ -133,22 +133,33 @@ const UploadBookPresenter = ({
           </div>
           <div className={classes.basicInfoInputs}>
             <CategorySelector onChange={setCategory} />
-            <Input label="제목" onChange={titleInput.onChange} required />
-            <Input label="부제" onChange={subtitleInput.onChange} />
+            <Input
+              label="제목"
+              inputProps={{ maxLength: 50 }}
+              onChange={titleInput.onChange}
+              required
+            />
+            <Input label="부제" inputProps={{ maxLength: 50 }} onChange={subtitleInput.onChange} />
             <div className={classes.publish}>
-              <Input label="출판사" onChange={companyInput.onChange} required />
+              <Input
+                label="출판사"
+                inputProps={{ maxLength: 20 }}
+                onChange={companyInput.onChange}
+                required
+              />
               <div className={classes.dateContainer}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <DatePicker
                     className={classes.publishDatePicker}
                     openTo="year"
                     autoOk
+                    disableFuture
+                    views={["year", "month", "date"]}
                     format="yyyy/MM/dd"
                     id="date-picker-inline"
                     label="출간일"
                     value={date}
                     onChange={setDate}
-                    maxDate={new Date()}
                     variant="filled"
                     InputProps={{ disableUnderline: true }}
                     DialogProps={{ disableScrollLock: true }}
@@ -161,9 +172,9 @@ const UploadBookPresenter = ({
         </div>
         <TextariaAutosize
           className={classes.descTextArea}
-          placeholder="책 소개"
+          placeholder="책 소개(최대 5000자)"
           onChange={descInput.onChange}
-          maxLength={4000}
+          maxLength={5000}
         />
         <Button className={classes.submitButton} type="submit" variant="contained" color="primary">
           업로드

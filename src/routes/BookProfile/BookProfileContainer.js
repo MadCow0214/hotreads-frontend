@@ -93,6 +93,10 @@ const BookProfileContainer = ({
     setTabIndex(newValue);
   };
 
+  const handleTabSwipeChange = index => {
+    setTabIndex(index);
+  };
+
   const onStarChange = (event, number) => {
     setStar(number);
   };
@@ -131,6 +135,7 @@ const BookProfileContainer = ({
           onBookmarkClick={onBookmarkClick}
           tabIndex={tabIndex}
           handleTabChange={handleTabChange}
+          handleTabSwipeChange={handleTabSwipeChange}
           star={star}
           onStarChange={onStarChange}
           reviewText={reviewText}

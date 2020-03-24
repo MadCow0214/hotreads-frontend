@@ -35,7 +35,7 @@ const REGISTER_USER = gql`
 
 const useStyles = makeStyles(theme => ({
   root: {
-    background: theme.palette.grey[200],
+    background: theme.palette.grey[100],
     minHeight: "100vh",
     paddingTop: "100px",
     display: "flex",

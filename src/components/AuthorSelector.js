@@ -140,7 +140,7 @@ const AuthorSelecter = ({ onChange }) => {
                 inputValue: params.inputValue,
                 name: "검색중..."
               });
-            } else {
+            } else if (filtered.length === 0) {
               filtered.push({
                 inputValue: params.inputValue,
                 name: `새로 추가: ${params.inputValue}`
@@ -150,7 +150,7 @@ const AuthorSelecter = ({ onChange }) => {
 
           return filtered;
         }}
-        id="free-solo-dialog-demo"
+        id="author-selector"
         options={searchData?.searchAuthor || []}
         getOptionLabel={option => {
           // e.g value selected with enter, right from the input

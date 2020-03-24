@@ -5,6 +5,7 @@ import { formatDate } from "../../util";
 
 // components
 import BookImage from "../../components/BookImage";
+import BookPreview from "../../components/BookPreview";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Rating from "@material-ui/lab/Rating";
@@ -14,12 +15,14 @@ import Slider from "react-slick";
 import Button from "@material-ui/core/Button";
 import Review from "../../components/Review";
 import BookmarkButton from "../../components/BookmarkButton";
+import SwipeableViews from "react-swipeable-views";
+import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     justifyContent: "center",
-    background: theme.palette.grey[200],
+    background: theme.palette.grey[100],
     width: "100%",
     minHeight: "100vh",
     paddingTop: "140px"
@@ -81,11 +84,12 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     borderBottom: "2px solid rgba(0,0,0,0.45)"
   },
-  sliderElement: {
-    margin: "auto"
+  slider: {
+    height: "240px"
   },
   tabPanel: {
-    minHeight: "240px"
+    minHeight: "255px",
+    overflow: "hidden"
   },
   writeReviewContainer: {
     display: "flex",
@@ -138,6 +142,7 @@ const BookProfilePresenter = ({
   onBookmarkClick,
   tabIndex,
   handleTabChange,
+  handleTabSwipeChange,
   star,
   onStarChange,
   reviewText,
@@ -188,9 +193,11 @@ const BookProfilePresenter = ({
               </Typography>
             </Box>
             <Box className={classes.flex}>
-              <Typography className={classes.author} variant="subtitle1" component="div">
-                {book.author.name}
-              </Typography>
+              <Link href={`/author/${book.author.name}`} color="inherit" underline="none">
+                <Typography className={classes.author} variant="subtitle1" component="div">
+                  {book.author.name}
+                </Typography>
+              </Link>
             </Box>
             <Box className={classes.flex}>
               <Typography className={classes.publisher} variant="subtitle2" component="span">
@@ -225,34 +232,28 @@ const BookProfilePresenter = ({
             {`저자 - ${book.author ? book.author.name : "미상"}`}
           </Typography>
         </Box>
-        <Typography variant="body1" component="div">
-          <Tabs
-            value={tabIndex}
-            onChange={handleTabChange}
-            variant="scrollable"
-            scrollButtons="on"
-            indicatorColor="primary"
-            textColor="primary"
-          >
-            <Tab label="프로필" />
-            <Tab label="저서" />
-          </Tabs>
+        <Tabs
+          value={tabIndex}
+          onChange={handleTabChange}
+          scrollButtons="on"
+          indicatorColor="primary"
+          textColor="primary"
+        >
+          <Tab label="소개" />
+          <Tab label="저서" />
+        </Tabs>
+        <SwipeableViews axis={"x"} index={tabIndex} onChangeIndex={handleTabSwipeChange}>
           <TabPanel className={classes.tabPanel} value={tabIndex} index={0}>
             {book.author.desc}
           </TabPanel>
           <TabPanel className={classes.tabPanel} value={tabIndex} index={1}>
-            <Slider {...sliderSettings}>
-              {book.author?.books?.map(book => (
-                <BookImage
-                  key={book.id}
-                  className={classes.sliderElement}
-                  src={book.image}
-                  size="sm"
-                />
+            <Slider className={classes.slider} {...sliderSettings}>
+              {book.author?.books?.map(otherBook => (
+                <BookPreview key={otherBook.id} book={otherBook} author={book.author.name} />
               ))}
             </Slider>
           </TabPanel>
-        </Typography>
+        </SwipeableViews>
         <Box className={classes.menuTitle}>
           <Typography variant="h5" component="div">
             리뷰

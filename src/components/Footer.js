@@ -6,7 +6,7 @@ import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    background: theme.palette.grey[200],
+    background: theme.palette.grey[100],
     width: "100%",
     height: "150px",
     borderTop: "1px solid rgba(0,0,0,0.25)",

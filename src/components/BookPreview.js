@@ -4,34 +4,50 @@ import { makeStyles } from "@material-ui/core/styles";
 
 // components
 import BookImage from "./BookImage";
-import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    flexDirection: "column"
+  image: {
+    margin: "auto",
+    padding: "0px"
   },
   title: {
-    fontWeight: 700
+    margin: "auto",
+    padding: "0px",
+    fontWeight: 700,
+    fontSize: "13px",
+    maxWidth: "120px"
+  },
+  author: {
+    margin: "auto",
+    padding: "0px",
+    fontWeight: 700,
+    color: theme.palette.grey[600],
+    fontSize: "11px",
+    maxWidth: "120px"
   }
 }));
 
-const BookPreview = ({ className }) => {
+const BookPreview = ({ className, book, author }) => {
   const classes = useStyles();
 
   return (
-    <Container className={className}>
-      <div className={classes.root}>
-        <BookImage src="https://img.ridicdn.net/cover/703000594/xxlarge" size="md" />
-        <Typography className={classes.title}>유 미 에브리싱</Typography>
-      </div>
-    </Container>
+    <div className={className}>
+      <Link href={`/book/${book?.title}`} color="inherit" underline="none">
+        <BookImage className={classes.image} src={book?.image} size="sm" />
+        <Typography className={classes.title}>{book?.title}</Typography>
+      </Link>
+      <Link href={`/author/${book?.author?.name}`} color="inherit" underline="none">
+        <Typography className={classes.author}>{book?.author?.name}</Typography>
+      </Link>
+    </div>
   );
 };
 
 BookPreview.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  author: PropTypes.string
 };
 
 export default BookPreview;

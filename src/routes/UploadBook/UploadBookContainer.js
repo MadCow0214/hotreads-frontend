@@ -37,7 +37,7 @@ const CREATE_BOOK = gql`
 
 const UploadBookContainer = props => {
   const [image, setImage] = useState(null);
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState(0);
   const titleInput = useInput("");
   const subtitleInput = useInput("");
   const companyInput = useInput("");
@@ -49,6 +49,11 @@ const UploadBookContainer = props => {
 
   const onSubmit = async event => {
     event.preventDefault();
+
+    if (!category) {
+      console.log("error");
+      return;
+    }
 
     if (!author?.id) {
       console.log("error");
