@@ -110,7 +110,7 @@ const UploadBookPresenter = ({
 
   return (
     <div className={classes.root}>
-      <form className={classes.container} onSubmit={onSubmit}>
+      <div className={classes.container}>
         <div className={classes.basicInfo}>
           <div className={classes.ImageUploaderContainer}>
             <BookImage src={displayImageSrc} size="lg" />
@@ -176,10 +176,15 @@ const UploadBookPresenter = ({
           onChange={descInput.onChange}
           maxLength={5000}
         />
-        <Button className={classes.submitButton} type="submit" variant="contained" color="primary">
+        <Button
+          className={classes.submitButton}
+          onClick={onSubmit}
+          variant="contained"
+          color="primary"
+        >
           업로드
         </Button>
-      </form>
+      </div>
     </div>
   );
 };

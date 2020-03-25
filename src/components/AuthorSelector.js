@@ -100,13 +100,10 @@ const AuthorSelecter = ({ onChange }) => {
             clearTimeout(searchTimerId);
           }
 
-          const timerId = setTimeout(
-            () => {
-              setSearchTerm(newValue);
-              setSearchTimerId(0);
-            },
-            searchTimerId ? 100 : 0
-          );
+          const timerId = setTimeout(() => {
+            setSearchTerm(newValue);
+            setSearchTimerId(0);
+          }, 100);
 
           setSearchTimerId(timerId);
         }}
