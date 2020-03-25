@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BookPreview = ({ className, book, author, imageSize }) => {
+const BookPreview = ({ className, book, imageSize }) => {
   const classes = useStyles();
 
   return (
@@ -53,7 +53,6 @@ const BookPreview = ({ className, book, author, imageSize }) => {
 
 BookPreview.propTypes = {
   className: PropTypes.string,
-  author: PropTypes.string,
   imageSize: PropTypes.string
 };
 

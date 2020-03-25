@@ -248,7 +248,7 @@ const BookProfilePresenter = ({
           <TabPanel className={classes.tabPanel} value={tabIndex} index={1}>
             <Slider className={classes.slider} {...sliderSettings}>
               {book.author?.books?.map(otherBook => (
-                <BookPreview key={otherBook.id} book={otherBook} author={book.author.name} />
+                <BookPreview key={otherBook.id} book={otherBook} />
               ))}
             </Slider>
           </TabPanel>
