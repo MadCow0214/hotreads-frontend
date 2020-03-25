@@ -29,7 +29,7 @@ const BookProfileContainer = ({
     variables: { title: bookTitle },
     onCompleted: data => {
       setWanted(data.bookByTitle.isWanted);
-      setWantedCount(data.bookByTitle.wantedUserCount);
+      setWantedCount(data.bookByTitle.wantedCount);
     }
   });
   const [toggleWantedMutation, { loading: togglingWanted }] = useMutation(TOGGLE_WANTED, {
@@ -54,6 +54,8 @@ const BookProfileContainer = ({
         id: "Book:" + bookData.bookByTitle.id,
         fragment: REVIEWS_CACHE_FRAGMENT,
         data: {
+          avgStar: (data.avgStar * data.reviewCount + addReview.star) / (data.reviewCount + 1),
+          reviewCount: data.reviewCount + 1,
           reviews: [...data.reviews, addReview],
           __typename: data.__typename
         }

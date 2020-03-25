@@ -36,6 +36,7 @@ const CREATE_BOOK = gql`
 `;
 
 const UploadBookContainer = props => {
+  const [uploading, setUploading] = useState(false);
   const [image, setImage] = useState(null);
   const [category, setCategory] = useState(0);
   const titleInput = useInput("");
@@ -45,10 +46,17 @@ const UploadBookContainer = props => {
   const [author, setAuthor] = useState(null);
   const descInput = useInput("");
 
-  const [createBookMutaion, { loading: creating }] = useMutation(CREATE_BOOK);
+  const [createBookMutaion] = useMutation(CREATE_BOOK);
 
   const onSubmit = async event => {
     event.preventDefault();
+
+    if (uploading) {
+      console.log("error");
+      return;
+    }
+
+    setUploading(true);
 
     if (!category) {
       console.log("error");
@@ -65,7 +73,7 @@ const UploadBookContainer = props => {
       const formData = new FormData();
       formData.append("image", image);
 
-      const res = await axios.post("https://contents-server.herokuapp.com/upload/image", formData);
+      const res = await axios.post(process.env.REACT_APP_CONTENTS_SERVER_URL, formData);
 
       if (res.status !== 200) {
         console.log("error");
@@ -97,8 +105,8 @@ const UploadBookContainer = props => {
 
   return (
     <>
-      {creating && <Loader />}
-      {!creating && (
+      {uploading && <Loader />}
+      {!uploading && (
         <UploadBookPresenter
           image={image}
           setImage={setImage}

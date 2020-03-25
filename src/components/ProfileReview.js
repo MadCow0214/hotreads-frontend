@@ -7,7 +7,7 @@ import Box from "@material-ui/core/Box";
 import BookImage from "./BookImage";
 import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
+import Link from "./Link";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,15 +58,15 @@ const ProfileReview = ({ review }) => {
   return (
     <div className={classes.root}>
       <Box className={classes.reviewColumn}>
-        <Link href={`/book/${review.book.title}`} color="inherit" underline="none">
-          <BookImage src={review.book.image} size="xs" />
+        <Link to={`/book/${review.book.title}`}>
+          <BookImage src={review.book.image} size="xxs" />
         </Link>
       </Box>
       <Box className={classes.reviewColumn}>
-        <Link href={`/book/${review.book.title}`} color="inherit" underline="none">
+        <Link to={`/book/${review.book.title}`}>
           <Typography className={classes.title}>{review.book.title}</Typography>
         </Link>
-        <Link href={`/author/${review.book.author?.name}`} color="inherit" underline="none">
+        <Link to={`/author/${review.book.author?.name}`}>
           <Typography className={classes.author}>{review.book.author?.name}</Typography>
         </Link>
         <Typography>{review.text}</Typography>

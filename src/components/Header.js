@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Input from "./Input";
-import Link from "@material-ui/core/Link";
+import Link from "./Link";
 import { LogoIcon, LogoText } from "./Icons";
 import UserMenu from "./UserMenu";
 
@@ -64,7 +64,7 @@ const Header = ({ isLoggedIn }) => {
     <div className={classes.root}>
       <Container className={classes.container} maxWidth="md">
         <Box className={classes.column}>
-          <Link className={classes.homeLink} href="/">
+          <Link className={classes.homeLink} to="/">
             <LogoIcon />
             <LogoText />
           </Link>
@@ -75,7 +75,7 @@ const Header = ({ isLoggedIn }) => {
         <Box className={classes.column}>
           {isLoggedIn && <UserMenu />}
           {!isLoggedIn && (
-            <Link className={classes.loginText} href="/signin" underline="hover">
+            <Link className={classes.loginText} to="/signin" underline="hover">
               로그인
             </Link>
           )}

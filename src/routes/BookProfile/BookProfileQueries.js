@@ -21,7 +21,9 @@ export const BOOK_BY_TITLE = gql`
       image
       desc
       publishDate
-      wantedUserCount
+      avgStar
+      wantedCount
+      reviewCount
       isWanted
       reviews {
         id
@@ -62,6 +64,8 @@ export const TOGGLE_WANTED = gql`
 
 export const REVIEWS_CACHE_FRAGMENT = gql`
   fragment reviewedBook on Book {
+    avgStar
+    reviewCount
     reviews {
       id
       __typename

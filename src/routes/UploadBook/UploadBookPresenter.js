@@ -162,7 +162,7 @@ const UploadBookPresenter = ({
                     onChange={setDate}
                     variant="filled"
                     InputProps={{ disableUnderline: true }}
-                    DialogProps={{ disableScrollLock: true }}
+                    DialogProps={{ okLabel: "확인", cancelLabel: "취소", disableScrollLock: true }}
                   />
                 </MuiPickersUtilsProvider>
               </div>

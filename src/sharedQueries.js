@@ -3,6 +3,7 @@ import { gql } from "apollo-boost";
 export const ME = gql`
   query me {
     me {
+      id
       avatar
       nickName
     }

@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 // components
@@ -7,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Input from "../../components/Input";
 import VerifyUser from "../../components/VerifyUser";
+import Link from "../../components/Link";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,15 +49,14 @@ const SignInPresenter = ({
               className={classes.item}
               type="email"
               label="이메일"
-              maxLength={30}
+              inputProps={{ maxLength: 40 }}
               onChange={onEmailChange}
             />
             <Input
               className={classes.item}
               type="password"
               label="비밀번호"
-              minLength={8}
-              maxLength={20}
+              inputProps={{ minLength: 8, maxLength: 20 }}
               onChange={onPasswordChange}
             />
             <Button className={classes.item} type="submit" variant="contained" color="primary">
@@ -72,7 +71,9 @@ const SignInPresenter = ({
           >
             구글
           </Button>
-          <Link to="/signup">계정 만들기</Link>
+          <Link to="/signup" underline="hover">
+            계정 만들기
+          </Link>
         </Container>
       )}
     </div>

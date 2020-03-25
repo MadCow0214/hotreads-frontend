@@ -11,6 +11,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import BookPreview from "../components/BookPreview";
+import EditUserDialog from "../components/EditUserDialog";
 import Grid from "@material-ui/core/Grid";
 import Loader from "../components/Loader";
 import Tabs from "@material-ui/core/Tabs";
@@ -31,6 +32,7 @@ const USER_BY_NICKNAME = gql`
         image
         title
         author {
+          id
           name
         }
       }
@@ -39,6 +41,7 @@ const USER_BY_NICKNAME = gql`
         image
         title
         author {
+          id
           name
         }
       }
@@ -49,6 +52,7 @@ const USER_BY_NICKNAME = gql`
           image
           title
           author {
+            id
             name
           }
         }
@@ -80,7 +84,8 @@ const useStyles = makeStyles(theme => ({
   userContainer: {
     padding: "0px 30px 30px",
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    borderBottom: `2px solid ${theme.palette.grey[500]}`
   },
   avatar: {
     marginRight: "10px",
@@ -119,7 +124,10 @@ const UserProfile = ({
 }) => {
   const classes = useStyles();
   const [tabIndex, setTabIndex] = useState(0);
-  const { data, loading } = useQuery(USER_BY_NICKNAME, { variables: { nickName } });
+  const [editOpen, setEditOpen] = React.useState(false);
+  const { data, loading } = useQuery(USER_BY_NICKNAME, {
+    variables: { nickName }
+  });
 
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
@@ -129,24 +137,37 @@ const UserProfile = ({
     setTabIndex(index);
   };
 
+  const handleEditOpen = () => {
+    setEditOpen(true);
+  };
+
+  const handleEditClose = () => {
+    setEditOpen(false);
+  };
+
+  const user = data?.userByNickName;
+
   return (
     <>
-      {loading && !data?.userByNickName && <Loader />}
-      {!loading && data?.userByNickName && (
+      {loading && !user && <Loader />}
+      {!loading && user && (
         <div className={classes.root}>
           <div className={classes.container}>
             <Box className={classes.userContainer}>
-              <Avatar src={data.userByNickName.avatar} className={classes.avatar} />
+              <Avatar src={user.avatar} className={classes.avatar} />
               <div>
                 <Typography className={classes.nickName} noWrap>
-                  {data.userByNickName.nickName}
+                  {user.nickName}
                 </Typography>
-                {data.userByNickName.isSelf && (
-                  <Typography noWrap>{data.userByNickName.email}</Typography>
-                )}
+                {user.isSelf && <Typography noWrap>{user.email}</Typography>}
               </div>
-              {data.userByNickName.isSelf && (
-                <Button className={classes.editButton} variant="contained" color="primary">
+              {user.isSelf && (
+                <Button
+                  className={classes.editButton}
+                  onClick={handleEditOpen}
+                  variant="contained"
+                  color="primary"
+                >
                   회원정보 수정
                 </Button>
               )}
@@ -158,36 +179,21 @@ const UserProfile = ({
               indicatorColor="primary"
               textColor="primary"
             >
-              <Tab label="업로드" />
               <Tab label="리뷰" />
               <Tab label="북마크" />
+              <Tab label="업로드" />
             </Tabs>
             <SwipeableViews axis={"x"} index={tabIndex} onChangeIndex={handleTabSwipeChange}>
               <TabPanel>
                 <Grid container spacing={3}>
-                  {data.userByNickName.uploadedBooks.length <= 0 && (
-                    <Grid item className={classes.emptyGrid} key="emptyUploaded" xs={12}>
-                      업로드한 책이 없습니다
-                    </Grid>
-                  )}
-                  {data.userByNickName.uploadedBooks.length > 0 &&
-                    data.userByNickName.uploadedBooks.map(book => (
-                      <Grid key={book.id} item xs={4} sm={3}>
-                        <BookPreview book={book} />
-                      </Grid>
-                    ))}
-                </Grid>
-              </TabPanel>
-              <TabPanel>
-                <Grid container spacing={3}>
-                  {data.userByNickName.reviews.length <= 0 && (
+                  {user.reviews.length <= 0 && (
                     <Grid item className={classes.emptyGrid} key="emptyReview" xs={12}>
                       작성한 리뷰가 없습니다
                     </Grid>
                   )}
-                  {data.userByNickName.reviews.length > 0 &&
-                    data.userByNickName.reviews.map(review => (
-                      <Grid key={review.id} item xs={12}>
+                  {user.reviews.length > 0 &&
+                    user.reviews.map(review => (
+                      <Grid item key={review.id} xs={12}>
                         <ProfileReview review={review} />
                       </Grid>
                     ))}
@@ -195,20 +201,36 @@ const UserProfile = ({
               </TabPanel>
               <TabPanel>
                 <Grid container spacing={3}>
-                  {data.userByNickName.wantedBooks.length <= 0 && (
+                  {user.wantedBooks.length <= 0 && (
                     <Grid className={classes.emptyGrid} key="emptyWanted" item xs={12}>
                       북마크한 책이 없습니다
                     </Grid>
                   )}
-                  {data.userByNickName.wantedBooks.map(book => (
+                  {user.wantedBooks.map(book => (
                     <Grid item key={book.id} xs={4} sm={3}>
                       <BookPreview book={book} />
                     </Grid>
                   ))}
                 </Grid>
               </TabPanel>
+              <TabPanel>
+                <Grid container spacing={3}>
+                  {user.uploadedBooks.length <= 0 && (
+                    <Grid item className={classes.emptyGrid} key="emptyUploaded" xs={12}>
+                      업로드한 책이 없습니다
+                    </Grid>
+                  )}
+                  {user.uploadedBooks.length > 0 &&
+                    user.uploadedBooks.map(book => (
+                      <Grid item key={book.id} xs={4} sm={3}>
+                        <BookPreview book={book} />
+                      </Grid>
+                    ))}
+                </Grid>
+              </TabPanel>
             </SwipeableViews>
           </div>
+          <EditUserDialog user={user} open={editOpen} handleClose={handleEditClose} />
         </div>
       )}
     </>

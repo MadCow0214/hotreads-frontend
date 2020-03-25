@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { gql } from "apollo-boost";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -12,22 +12,11 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Input from "../components/Input";
 import VerifyUser from "../components/VerifyUser";
+import Link from "../components/Link";
 
 const REGISTER_USER = gql`
-  mutation registerUser(
-    $nickName: String!
-    $firstName: String
-    $lastName: String
-    $email: String!
-    $password: String!
-  ) {
-    registerUser(
-      nickName: $nickName
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      password: $password
-    ) {
+  mutation registerUser($nickName: String!, $email: String!, $password: String!) {
+    registerUser(nickName: $nickName, email: $email, password: $password) {
       error
     }
   }
@@ -62,15 +51,11 @@ const SignUp = () => {
   const password1 = useInput();
   const password2 = useInput();
   const nickName = useInput();
-  const firstName = useInput();
-  const lastName = useInput();
   const [registerUserMutation] = useMutation(REGISTER_USER, {
     variables: {
       email: email.value,
       nickName: nickName.value,
-      password: password1.value,
-      firstName: firstName.value,
-      lastName: lastName.value
+      password: password1.value
     }
   });
 
@@ -100,7 +85,7 @@ const SignUp = () => {
               type="email"
               label="이메일"
               onChange={email.onChange}
-              maxLength={30}
+              inputProps={{ maxLength: 40 }}
               required
             />
             <Input
@@ -108,8 +93,7 @@ const SignUp = () => {
               type="password"
               label="비밀번호 (8-20)"
               onChange={password1.onChange}
-              minLength={8}
-              maxLength={20}
+              inputProps={{ minLength: 8, maxLength: 20 }}
               required
             />
             <Input
@@ -117,8 +101,7 @@ const SignUp = () => {
               type="password"
               label="비밀번호 확인"
               onChange={password2.onChange}
-              minLength={8}
-              maxLength={20}
+              inputProps={{ minLength: 8, maxLength: 20 }}
               required
             />
             <Input
@@ -126,29 +109,16 @@ const SignUp = () => {
               type="text"
               label="닉네임 (3-10)"
               onChange={nickName.onChange}
-              minLength={3}
-              maxLength={10}
+              inputProps={{ minLength: 3, maxLength: 10 }}
               required
-            />
-            <Input
-              className={classes.item}
-              type="text"
-              label="이름"
-              onChange={firstName.onChange}
-              maxLength={30}
-            />
-            <Input
-              className={classes.item}
-              type="text"
-              label="성"
-              onChange={lastName.onChange}
-              maxLength={30}
             />
             <Button className={classes.item} type="submit" variant="contained" color="primary">
               회원 가입
             </Button>
           </form>
-          <Link to="/signin">로그인</Link>
+          <Link to="/signin" underline="hover">
+            로그인
+          </Link>
         </Container>
       )}
     </div>

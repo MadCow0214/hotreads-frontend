@@ -16,7 +16,7 @@ import Button from "@material-ui/core/Button";
 import Review from "../../components/Review";
 import BookmarkButton from "../../components/BookmarkButton";
 import SwipeableViews from "react-swipeable-views";
-import Link from "@material-ui/core/Link";
+import Link from "../../components/Link";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -66,7 +66,6 @@ const useStyles = makeStyles(theme => ({
       marginTop: "auto"
     }
   },
-
   author: {
     marginRight: "5px",
     fontWeight: 700
@@ -82,13 +81,14 @@ const useStyles = makeStyles(theme => ({
     marginBottom: "15px",
     paddingBottom: "10px",
     width: "100%",
-    borderBottom: "2px solid rgba(0,0,0,0.45)"
+    borderBottom: `2px solid ${theme.palette.grey[500]}`
   },
   slider: {
-    height: "240px"
+    height: "220px",
+    marginBottom: "30px"
   },
   tabPanel: {
-    minHeight: "255px",
+    minHeight: "200px",
     overflow: "hidden"
   },
   writeReviewContainer: {
@@ -158,12 +158,9 @@ const BookProfilePresenter = ({
     speed: 500,
     slidesToShow: Math.min(4, sliderLength),
     slidesToScroll: Math.min(4, sliderLength),
+    adaptiveHeight: true,
     arrows: false
   };
-
-  const avgStar = book.reviews.length
-    ? book.reviews.reduce((p, c) => p + c.star, 0) / book.reviews.length
-    : 0;
 
   return (
     <div className={classes.root}>
@@ -184,16 +181,16 @@ const BookProfilePresenter = ({
             )}
 
             <Box className={classes.ratingContainer}>
-              <Rating className={classes.rating} value={avgStar} precision={0.5} readOnly />
+              <Rating className={classes.rating} value={book.avgStar} precision={0.5} readOnly />
               <Typography className={classes.avgStar} variant="body1" component="span">
-                {avgStar.toFixed(1)}
+                {book.avgStar.toFixed(1)}
               </Typography>
               <Typography className={classes.starCount} variant="body1" component="span">
-                ({book.reviews.length})
+                ({book.reviewCount})
               </Typography>
             </Box>
             <Box className={classes.flex}>
-              <Link href={`/author/${book.author.name}`} color="inherit" underline="none">
+              <Link to={`/author/${book.author.name}`}>
                 <Typography className={classes.author} variant="subtitle1" component="div">
                   {book.author.name}
                 </Typography>
@@ -228,9 +225,11 @@ const BookProfilePresenter = ({
           <Box p={3}>{book.desc}</Box>
         </Typography>
         <Box className={classes.menuTitle}>
-          <Typography variant="h5" component="div">
-            {`저자 - ${book.author ? book.author.name : "미상"}`}
-          </Typography>
+          <Link to={`/author/${book.author.name}`}>
+            <Typography variant="h5" component="div">
+              {`저자 - ${book.author.name}`}
+            </Typography>
+          </Link>
         </Box>
         <Tabs
           value={tabIndex}

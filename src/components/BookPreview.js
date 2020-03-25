@@ -3,25 +3,20 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 
 // components
+import Box from "@material-ui/core/Box";
 import BookImage from "./BookImage";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
+import Link from "./Link";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles(theme => ({
-  image: {
-    margin: "auto",
-    padding: "0px"
-  },
+  image: {},
   title: {
-    margin: "auto",
-    padding: "0px",
     fontWeight: 700,
     fontSize: "13px",
     maxWidth: "120px"
   },
   author: {
-    margin: "auto",
-    padding: "0px",
     fontWeight: 700,
     color: theme.palette.grey[600],
     fontSize: "11px",
@@ -29,25 +24,41 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BookPreview = ({ className, book, author }) => {
+const BookPreview = ({ className, book, author, imageSize }) => {
   const classes = useStyles();
 
   return (
-    <div className={className}>
-      <Link href={`/book/${book?.title}`} color="inherit" underline="none">
-        <BookImage className={classes.image} src={book?.image} size="sm" />
-        <Typography className={classes.title}>{book?.title}</Typography>
-      </Link>
-      <Link href={`/author/${book?.author?.name}`} color="inherit" underline="none">
-        <Typography className={classes.author}>{book?.author?.name}</Typography>
-      </Link>
-    </div>
+    <>
+      {book && (
+        <Box className={className}>
+          <Link to={`/book/${book?.title}`}>
+            <BookImage className={classes.image} src={book?.image} size={imageSize} />
+            <Typography className={classes.title}>{book?.title}</Typography>
+          </Link>
+          <Link to={`/author/${book?.author?.name}`}>
+            <Typography className={classes.author}>{book?.author?.name}</Typography>
+          </Link>
+        </Box>
+      )}
+      {!book && (
+        <Box className={className}>
+          <Skeleton className={classes.image} variant="rect" width={160} height={240} />
+          <Skeleton variant="rect" width={120} height={13} />
+          <Skeleton variant="rect" width={60} height={11} />
+        </Box>
+      )}
+    </>
   );
 };
 
 BookPreview.propTypes = {
   className: PropTypes.string,
-  author: PropTypes.string
+  author: PropTypes.string,
+  imageSize: PropTypes.string
+};
+
+BookPreview.defaultProps = {
+  imageSize: "sm"
 };
 
 export default BookPreview;

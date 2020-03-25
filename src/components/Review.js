@@ -7,7 +7,7 @@ import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
 import Avartar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
-import Link from "@material-ui/core/Link";
+import Link from "./Link";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,12 +55,7 @@ const Review = ({ review }) => {
   return (
     <div className={classes.root}>
       <Box className={classes.reviewColumn}>
-        <Link
-          href={`/user/${review.user.nickName}`}
-          className={classes.user}
-          color="inherit"
-          underline="none"
-        >
+        <Link to={`/user/${review.user.nickName}`} className={classes.user}>
           <Avartar className={classes.avatar} src={review.user.avatar} />
           <Typography className={classes.userName} variant="subtitle2" component="div" noWrap>
             {review.user.nickName}

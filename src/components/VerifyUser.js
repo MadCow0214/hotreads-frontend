@@ -72,6 +72,7 @@ const VerifyUser = ({ email }) => {
           type="text"
           label="Verify Code"
           onChange={verifyCode.onChange}
+          inputProps={{ maxLength: 40 }}
           required
         />
         <Button className={classes.item} type="submit" variant="contained" color="primary">

@@ -10,6 +10,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import AppRouter from "./AppRouter";
 import Header from "./Header";
 import Footer from "./Footer";
+import ScrollToTop from "./ScrollToTop";
 
 const QUERY = gql`
   {
@@ -27,9 +28,11 @@ const App = () => {
       <>
         <CssBaseline />
         <BrowserRouter>
-          <Header isLoggedIn={isLoggedIn} />
-          <AppRouter isLoggedIn={isLoggedIn} />
-          <Footer />
+          <ScrollToTop>
+            <Header isLoggedIn={isLoggedIn} />
+            <AppRouter isLoggedIn={isLoggedIn} />
+            <Footer />
+          </ScrollToTop>
         </BrowserRouter>
       </>
     </ThemeProvider>

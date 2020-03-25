@@ -10,6 +10,17 @@ const theme = createMuiTheme({
   themeName,
   palette,
   overrides: {
+    MuiTab: {
+      root: {
+        fontSize: "16px",
+        fontWeight: "600"
+      }
+    },
+    MuiButton: {
+      root: {
+        fontWeight: "600"
+      }
+    },
     MuiSelect: {
       select: {
         "&:focus": {
@@ -50,6 +61,11 @@ const theme = createMuiTheme({
         "&$shrink": {
           transform: "translate(12px, 8px) scale(0.75)"
         }
+      }
+    },
+    MuiRating: {
+      sizeSmall: {
+        fontSize: "0.8rem"
       }
     }
   },
