@@ -40,14 +40,14 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     maxWidth: 800,
     width: "100%",
-    padding: "0 20px"
+    padding: "0px 20px 40px"
   },
   name: {
     marginBottom: "20px"
   },
   desc: {
     paddingBottom: "20px",
-    marginBottom: "20px",
+    marginBottom: "40px",
     borderBottom: `2px solid ${theme.palette.grey[500]}`
   }
 }));
