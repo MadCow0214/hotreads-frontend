@@ -2,6 +2,7 @@ import "date-fns";
 import React, { useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
+import { sizeList } from "../../components/BookImage";
 
 // components
 import Button from "@material-ui/core/Button";
@@ -11,6 +12,7 @@ import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import AuthorSelector from "../../components/AuthorSelector";
 import BookImage from "../../components/BookImage";
 import TextariaAutosize from "@material-ui/core/TextareaAutosize";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,16 +30,12 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     padding: "0 20px"
   },
-  basicInfo: {
-    display: "flex",
-    justifyContent: "center",
-    width: "100%"
-  },
   basicInfoInputs: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    padding: "10px"
+    padding: "10px",
+    minHeight: sizeList["lg"].h
   },
   ImageUploaderContainer: {
     display: "flex",
@@ -47,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
   ImageSelectButton: {
     marginTop: "5px",
-    width: "100%"
+    width: sizeList["lg"].w
   },
   publish: {
     display: "flex"
@@ -65,7 +63,6 @@ const useStyles = makeStyles(theme => ({
     display: "block",
     resize: "none",
     width: "100%",
-    minWidth: "560px",
     minHeight: "150px",
     margin: "30px 0px",
     padding: "10px",
@@ -111,8 +108,8 @@ const UploadBookPresenter = ({
   return (
     <div className={classes.root}>
       <div className={classes.container}>
-        <div className={classes.basicInfo}>
-          <div className={classes.ImageUploaderContainer}>
+        <Grid container spacing={3}>
+          <Grid item className={classes.ImageUploaderContainer} xs={12} sm={5}>
             <BookImage src={displayImageSrc} size="lg" />
             <input
               id="imageInput"
@@ -130,8 +127,8 @@ const UploadBookPresenter = ({
             >
               이미지 선택
             </Button>
-          </div>
-          <div className={classes.basicInfoInputs}>
+          </Grid>
+          <Grid item className={classes.basicInfoInputs} xs={12} sm={7}>
             <CategorySelector unselectedString="선택해 주세요" onChange={setCategory} />
             <Input
               label="제목"
@@ -162,14 +159,18 @@ const UploadBookPresenter = ({
                     onChange={setDate}
                     variant="filled"
                     InputProps={{ disableUnderline: true }}
-                    DialogProps={{ okLabel: "확인", cancelLabel: "취소", disableScrollLock: true }}
+                    DialogProps={{
+                      okLabel: "확인",
+                      cancelLabel: "취소",
+                      disableScrollLock: true
+                    }}
                   />
                 </MuiPickersUtilsProvider>
               </div>
             </div>
             <AuthorSelector onChange={setAuthor} />
-          </div>
-        </div>
+          </Grid>
+        </Grid>
         <TextariaAutosize
           className={classes.descTextArea}
           placeholder="책 소개(최대 5000자)"
