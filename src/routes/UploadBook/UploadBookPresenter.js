@@ -129,7 +129,7 @@ const UploadBookPresenter = ({
             </Button>
           </Grid>
           <Grid item className={classes.basicInfoInputs} xs={12} sm={7}>
-            <CategorySelector unselectedString="선택해 주세요" onChange={setCategory} />
+            <CategorySelector unselectedString="선택해 주세요" onChange={setCategory} required />
             <Input
               label="제목"
               inputProps={{ maxLength: 50 }}

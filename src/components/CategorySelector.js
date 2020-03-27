@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CategorySelector = ({ unselectedString, onChange }) => {
+const CategorySelector = ({ unselectedString, onChange, required }) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -33,7 +33,7 @@ const CategorySelector = ({ unselectedString, onChange }) => {
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel variant="filled" required>
+        <InputLabel variant="filled" required={required}>
           분류
         </InputLabel>
         <Select
@@ -58,7 +58,8 @@ const CategorySelector = ({ unselectedString, onChange }) => {
 
 CategorySelector.propTypes = {
   unselectedString: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  required: PropTypes.bool
 };
 
 export default CategorySelector;
