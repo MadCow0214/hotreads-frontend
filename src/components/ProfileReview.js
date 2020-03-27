@@ -20,9 +20,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: "flex-start",
     width: "100%",
     padding: "10px 0px",
-    "&:not(last-child)": {
-      borderBottom: "1px solid rgba(0,0,0,0.25)"
-    }
+    borderBottom: "1px solid rgba(0,0,0,0.25)"
   },
   reviewColumn: {
     padding: "0px 5px",

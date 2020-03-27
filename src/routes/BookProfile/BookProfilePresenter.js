@@ -3,6 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Categories from "../../Categories";
 import { formatDate } from "../../util";
 
+// hooks
+import { useTheme } from "@material-ui/core/styles";
+import { useMediaQuery } from "@material-ui/core";
+
 // components
 import BookImage from "../../components/BookImage";
 import BookPreview from "../../components/BookPreview";
@@ -155,6 +159,8 @@ const BookProfilePresenter = ({
   onReviewSubmit
 }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
   const sliderLength = book.author?.books?.length || 0;
   const sliderSettings = {
@@ -176,7 +182,7 @@ const BookProfilePresenter = ({
           </Grid>
           <Grid item className={classes.bookInfoColumn} xs={12} sm={8}>
             <Typography className={classes.category} variant="subtitle2" component="div">
-              {Categories[book.category]?.text}
+              {Categories[book.category - 1]?.text}
             </Typography>
             <Typography variant="h4" component="div">
               {book.title}
@@ -260,7 +266,11 @@ const BookProfilePresenter = ({
           <TabPanel className={classes.tabPanel} value={tabIndex} index={1}>
             <Slider className={classes.slider} {...sliderSettings}>
               {book.author?.books?.map(otherBook => (
-                <BookPreview key={otherBook.id} book={otherBook} />
+                <BookPreview
+                  key={otherBook.id}
+                  book={otherBook}
+                  imageSize={!matches ? "xs" : "sm"}
+                />
               ))}
             </Slider>
           </TabPanel>
