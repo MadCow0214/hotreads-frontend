@@ -5,6 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 // hooks
 import { useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
+import { useTheme } from "@material-ui/core/styles";
+import { useMediaQuery } from "@material-ui/core";
 
 // components
 import Avatar from "@material-ui/core/Avatar";
@@ -94,19 +96,22 @@ const useStyles = makeStyles(theme => ({
     padding: "0 20px"
   },
   userContainer: {
-    padding: "0px 30px 30px",
+    padding: props => (props.smallScreen ? "0px 10px 30px" : "0px 30px 30px"),
     display: "flex",
     alignItems: "center",
     borderBottom: `2px solid ${theme.palette.grey[500]}`
   },
   avatar: {
     marginRight: "10px",
-    width: theme.spacing(8),
-    height: theme.spacing(8)
+    width: props => (props.smallScreen ? theme.spacing(5) : theme.spacing(8)),
+    height: props => (props.smallScreen ? theme.spacing(5) : theme.spacing(8))
   },
   nickName: {
-    fontSize: "24px",
+    fontSize: props => (props.smallScreen ? "16px" : "24px"),
     fontWeight: "600"
+  },
+  email: {
+    fontSize: props => (props.smallScreen ? "12px" : "18px")
   },
   editButton: {
     marginLeft: "auto"
@@ -128,7 +133,9 @@ const UserProfile = ({
     params: { nickName }
   }
 }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const classes = useStyles({ smallScreen: !matches });
   const [tabIndex, setTabIndex] = useState(0);
   const [wantedPage, setWantedPage] = useState(1);
   const [uploadedPage, setUploadedPage] = useState(1);
@@ -181,7 +188,11 @@ const UserProfile = ({
                 <Typography className={classes.nickName} noWrap>
                   {user.nickName}
                 </Typography>
-                {user.isSelf && <Typography noWrap>{user.email}</Typography>}
+                {user.isSelf && (
+                  <Typography className={classes.email} noWrap>
+                    {user.email}
+                  </Typography>
+                )}
               </div>
               {user.isSelf && (
                 <Button
@@ -190,7 +201,7 @@ const UserProfile = ({
                   variant="contained"
                   color="primary"
                 >
-                  회원정보 수정
+                  수정
                 </Button>
               )}
             </Box>
