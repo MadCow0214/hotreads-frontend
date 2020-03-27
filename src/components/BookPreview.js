@@ -48,8 +48,8 @@ const BookPreview = ({ className, book, imageSize }) => {
         </div>
       )}
       {!book && (
-        <div className={className}>
-          <Box>
+        <div className={`${classes.wrapper} ${className}`}>
+          <Box className={classes.container}>
             <Skeleton
               className={classes.image}
               variant="rect"
