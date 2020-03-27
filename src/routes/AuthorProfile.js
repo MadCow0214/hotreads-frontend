@@ -3,13 +3,13 @@ import { gql } from "apollo-boost";
 import { makeStyles } from "@material-ui/core/styles";
 
 // hooks
+import { useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 
 // components
 import Typography from "@material-ui/core/Typography";
 import Loader from "../components/Loader";
-import Grid from "@material-ui/core/Grid";
-import BookPreview from "../components/BookPreview";
+import BookList from "../components/BookList";
 
 const AUTHOR_BY_NAME = gql`
   query authorByName($name: String!) {
@@ -17,11 +17,17 @@ const AUTHOR_BY_NAME = gql`
       id
       name
       desc
-      books {
-        id
-        image
-        title
-      }
+      bookCount
+    }
+  }
+`;
+
+const BOOK_BY_AUTHOR = gql`
+  query bookByAuthor($name: String!, $page: Int!) {
+    bookByAuthor(name: $name, page: $page) {
+      id
+      image
+      title
     }
   }
 `;
@@ -58,9 +64,14 @@ const AuthorProfile = ({
   }
 }) => {
   const classes = useStyles();
+  const [page, setPage] = useState(1);
   const { data, loading } = useQuery(AUTHOR_BY_NAME, { variables: { name } });
+  const { data: bookData, loading: bookLoading } = useQuery(BOOK_BY_AUTHOR, {
+    variables: { name, page }
+  });
 
   const author = data?.authorByName;
+  const books = bookData?.bookByAuthor;
 
   return (
     <>
@@ -74,18 +85,14 @@ const AuthorProfile = ({
             <Typography className={classes.desc} variant="body1">
               {author.desc}
             </Typography>
-            <Grid container spacing={3}>
-              {author.books.length <= 0 && (
-                <Grid item className={classes.emptyGrid} key="emptyReview" xs={12}>
-                  저서가 없습니다.
-                </Grid>
-              )}
-              {author.books.map(book => (
-                <Grid item key={book.id} xs={4} sm={3}>
-                  <BookPreview book={book} />
-                </Grid>
-              ))}
-            </Grid>
+            <BookList
+              books={books}
+              loading={bookLoading}
+              messageForNothing="저서가 없습니다"
+              page={page}
+              pageCount={Math.ceil(author?.bookCount / 12)}
+              onPageChange={(e, newValue) => setPage(newValue)}
+            />
           </div>
         </div>
       )}

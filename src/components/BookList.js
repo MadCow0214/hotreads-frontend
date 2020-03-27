@@ -70,7 +70,7 @@ const BookList = ({ books, loading, messageForNothing, page, pageCount, onPageCh
         </div>
       )}
       {!loading && (
-        <Grid container className={classes.container} spacing={3}>
+        <Grid container className={classes.container} spacing={3} alignContent="flex-start">
           {books.length <= 0 && (
             <Grid item className={classes.emptyGrid} key="empty" xs={12}>
               {messageForNothing}

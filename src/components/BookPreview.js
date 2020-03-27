@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex"
   },
   container: {
-    margin: "auto"
+    margin: "0 auto"
   },
   title: {
     fontWeight: 700,
