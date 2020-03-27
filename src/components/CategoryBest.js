@@ -5,6 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 // hooks
 import { useQuery } from "@apollo/react-hooks";
+import { useTheme } from "@material-ui/core/styles";
+import { useMediaQuery } from "@material-ui/core";
 
 // components
 import BookImage from "./BookImage";
@@ -37,13 +39,14 @@ const useStyles = makeStyles(theme => ({
   number: {
     display: "flex",
     alignItems: "center",
-    padding: "0px 15px"
+    padding: "0px 10px 0px 15px"
   },
   info: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     width: "100%",
+    paddingLeft: "5px",
     borderBottom: "1px solid rgba(0,0,0,0.25)"
   },
   title: {
@@ -75,6 +78,8 @@ const useStyles = makeStyles(theme => ({
 
 const CategoryBest = ({ category }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const { data, loading } = useQuery(CATEGORY_BEST, { variables: { category } });
 
   if (data?.categoryBest) {
@@ -89,9 +94,11 @@ const CategoryBest = ({ category }) => {
             <Link to={`/book/${book?.title}`}>
               <BookImage src={book.image} size="xxs" />
             </Link>
-            <div className={classes.number}>
-              <Typography variant="h5">{index + 1}</Typography>
-            </div>
+            {matches && (
+              <div className={classes.number}>
+                <Typography variant="h5">{index + 1}</Typography>
+              </div>
+            )}
             <div className={classes.info}>
               <Link to={`/book/${book?.title}`}>
                 <Typography className={classes.title}>{book?.title}</Typography>
