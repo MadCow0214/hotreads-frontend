@@ -35,11 +35,12 @@ const useStyles = makeStyles(theme => ({
   root: {
     background: theme.palette.grey[100],
     minHeight: "100vh",
-    paddingTop: "140px",
+    paddingTop: "100px",
     display: "flex",
     justifyContent: "center"
   },
   container: {
+    padding: "40px 20px",
     display: "flex",
     flexDirection: "column",
     maxWidth: 800,

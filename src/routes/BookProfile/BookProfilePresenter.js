@@ -17,6 +17,7 @@ import Review from "../../components/Review";
 import BookmarkButton from "../../components/BookmarkButton";
 import SwipeableViews from "react-swipeable-views";
 import Link from "../../components/Link";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,13 +33,12 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     padding: "0 20px"
   },
-  bookInfo: {
-    display: "flex"
+  bookImage: {
+    margin: "auto"
   },
   bookInfoColumn: {
     display: "flex",
-    flexDirection: "column",
-    marginLeft: "35px"
+    flexDirection: "column"
   },
   category: {
     marginBottom: "20px"
@@ -70,6 +70,11 @@ const useStyles = makeStyles(theme => ({
     marginRight: "5px",
     fontWeight: 700
   },
+  publishInfo: {
+    display: "flex",
+    alignItems: "flex-end",
+    marginBottom: "15px"
+  },
   publisher: {
     fontWeight: 700
   },
@@ -83,11 +88,6 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     borderBottom: `2px solid ${theme.palette.grey[500]}`
   },
-  //descBox: {
-  //  height: "20em",
-  //  lineHeight: "1.7rem",
-  //  overflow: "hidden"
-  //},
   slider: {
     height: "220px",
     marginBottom: "30px"
@@ -131,10 +131,10 @@ const TabPanel = props => {
       component="div"
       role="tabpanel"
       hidden={value !== index}
-      style={{ whiteSpace: "pre-line" }}
+      style={{ paddingTop: "30px", whiteSpace: "pre-line" }}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <>{children}</>}
     </Typography>
   );
 };
@@ -170,9 +170,11 @@ const BookProfilePresenter = ({
   return (
     <div className={classes.root}>
       <div className={classes.container}>
-        <Box className={classes.bookInfo}>
-          <BookImage src={book.image || ""} size="lg" />
-          <Box className={classes.bookInfoColumn}>
+        <Grid container spacing={3} direction="row" justify="center">
+          <Grid item xs={12} sm={4}>
+            <BookImage className={classes.bookImage} src={book.image || ""} size="lg" />
+          </Grid>
+          <Grid item className={classes.bookInfoColumn} xs={12} sm={8}>
             <Typography className={classes.category} variant="subtitle2" component="div">
               {Categories[book.category]?.text}
             </Typography>
@@ -201,7 +203,7 @@ const BookProfilePresenter = ({
                 </Typography>
               </Link>
             </Box>
-            <Box className={classes.flex}>
+            <Box className={classes.publishInfo}>
               <Typography className={classes.publisher} variant="subtitle2" component="span">
                 {book.company}
               </Typography>
@@ -219,8 +221,8 @@ const BookProfilePresenter = ({
                 {wantedCount}명이 이 책을 읽고 싶어합니다!
               </Typography>
             </Box>
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
         <Box className={classes.menuTitle}>
           <Typography variant="h5" component="div">
             책 소개
@@ -232,7 +234,7 @@ const BookProfilePresenter = ({
           component="div"
           style={{ whiteSpace: "pre-line" }}
         >
-          <Box p={3}>{book.desc}</Box>
+          {book.desc}
         </Typography>
         <Box className={classes.menuTitle}>
           <Link to={`/author/${book.author.name}`}>

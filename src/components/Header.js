@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     justifyContent: "center",
     width: "33%",
-    minWidth: "150px",
+    minWidth: "120px",
     padding: "0 10px",
     "&:first-child": {
       justifyContent: "flex-start"
