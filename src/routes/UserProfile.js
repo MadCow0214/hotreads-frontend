@@ -118,7 +118,7 @@ const TabPanel = props => {
 
   return (
     <Typography component="div" role="tabpanel" hidden={value !== index} {...other}>
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <>{children}</>}
     </Typography>
   );
 };

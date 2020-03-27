@@ -2,6 +2,10 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { formatDate } from "../util";
 
+// hooks
+import { useTheme } from "@material-ui/core/styles";
+import { useMediaQuery } from "@material-ui/core";
+
 // components
 import Box from "@material-ui/core/Box";
 import BookImage from "./BookImage";
@@ -52,14 +56,18 @@ const useStyles = makeStyles(theme => ({
 
 const ProfileReview = ({ review }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
   return (
     <div className={classes.root}>
-      <Box className={classes.reviewColumn}>
-        <Link to={`/book/${review.book.title}`}>
-          <BookImage src={review.book.image} size="xxs" />
-        </Link>
-      </Box>
+      {!matches && (
+        <Box className={classes.reviewColumn}>
+          <Link to={`/book/${review.book.title}`}>
+            <BookImage src={review.book.image} size="xxs" />
+          </Link>
+        </Box>
+      )}
       <Box className={classes.reviewColumn}>
         <Link to={`/book/${review.book.title}`}>
           <Typography className={classes.title}>{review.book.title}</Typography>
