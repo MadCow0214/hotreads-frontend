@@ -37,6 +37,9 @@ const useStyles = makeStyles(theme => ({
   item: {
     display: "flex"
   },
+  image: {
+    margin: "auto"
+  },
   number: {
     display: "flex",
     alignItems: "center",
@@ -92,7 +95,7 @@ const CategoryBest = ({ category }) => {
       {!loading &&
         data.categoryBest.map((book, index) => (
           <Grid item className={classes.item} key={book.id} xs={6} sm={4}>
-            <Link to={`/book/${book?.title}`}>
+            <Link className={classes.image} to={`/book/${book?.title}`}>
               <BookImage src={book.image} size="xxs" />
             </Link>
             {matches && (
