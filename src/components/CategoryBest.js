@@ -35,8 +35,7 @@ const CATEGORY_BEST = gql`
 
 const useStyles = makeStyles(theme => ({
   item: {
-    display: "flex",
-    flexDirection: props => (props.smallScreen ? "column" : "row")
+    display: "flex"
   },
   number: {
     display: "flex",
@@ -103,14 +102,10 @@ const CategoryBest = ({ category }) => {
             )}
             <div className={classes.info}>
               <Link to={`/book/${book?.title}`}>
-                <Typography className={classes.title} noWrap>
-                  {book?.title}
-                </Typography>
+                <Typography className={classes.title}>{book?.title}</Typography>
               </Link>
               <Link to={`/author/${book.author.name}`}>
-                <Typography className={classes.author} noWrap>
-                  {book.author.name}
-                </Typography>
+                <Typography className={classes.author}>{book.author.name}</Typography>
               </Link>
               <div className={classes.starContainer}>
                 <StarIcon className={classes.starIcon} />
