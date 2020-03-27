@@ -5,49 +5,19 @@ import { makeStyles } from "@material-ui/core/styles";
 // components
 import Box from "@material-ui/core/Box";
 
-const getWidth = size => {
-  if (size === "xxs") {
-    return 60;
-  }
-  if (size === "xs") {
-    return 80;
-  }
-  if (size === "sm") {
-    return 120;
-  }
-  if (size === "md") {
-    return 160;
-  }
-  if (size === "lg") {
-    return 200;
-  }
-  return 160;
-};
-
-const getHeight = size => {
-  if (size === "xxs") {
-    return 90;
-  }
-  if (size === "xs") {
-    return 120;
-  }
-  if (size === "sm") {
-    return 180;
-  }
-  if (size === "md") {
-    return 240;
-  }
-  if (size === "lg") {
-    return 300;
-  }
-  return 240;
+export const sizeList = {
+  xxs: { w: 60, h: 90 },
+  xs: { w: 80, h: 135 },
+  sm: { w: 120, h: 180 },
+  md: { w: 160, h: 240 },
+  lg: { w: 200, h: 300 }
 };
 
 const useStyles = makeStyles(theme => ({
   root: {
     position: "relative",
-    width: props => getWidth(props.size) + 2,
-    height: props => getHeight(props.size) + 2,
+    width: props => sizeList[props.size].w + 2,
+    height: props => sizeList[props.size].h + 2,
     border: "1px solid rgba(0,0,0,0.25)",
     background: "white"
   },
@@ -55,8 +25,8 @@ const useStyles = makeStyles(theme => ({
     position: "absolute",
     left: 0,
     top: 0,
-    width: props => getWidth(props.size),
-    height: props => getHeight(props.size),
+    width: props => sizeList[props.size].w,
+    height: props => sizeList[props.size].h,
     background:
       "linear-gradient(90deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 5%, rgba(0,0,0,0) 95%, rgba(0,0,0,0.2) 100%)"
   }
@@ -69,7 +39,7 @@ const BookImage = ({ id, src, size, className }) => {
     <Box className={`${classes.root} ${className}`}>
       {src && (
         <>
-          <img id={id} src={src} alt="" width={getWidth(size)} height={getHeight(size)} />
+          <img id={id} src={src} alt="" width={sizeList[size].w} height={sizeList[size].h} />
           <div className={classes.gradient} />
         </>
       )}

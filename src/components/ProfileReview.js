@@ -37,14 +37,12 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     fontWeight: 700,
-    fontSize: "13px",
-    maxWidth: "120px"
+    fontSize: "13px"
   },
   author: {
     fontWeight: 700,
     color: theme.palette.grey[600],
     fontSize: "11px",
-    maxWidth: "120px",
     marginBottom: "6px"
   },
   star: {

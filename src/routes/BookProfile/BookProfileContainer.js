@@ -4,7 +4,8 @@ import {
   BOOK_BY_TITLE,
   ADD_REVIEW,
   TOGGLE_WANTED,
-  REVIEWS_CACHE_FRAGMENT
+  BOOK_REVIEWS_CACHE_FRAGMENT,
+  USER_REVIEWS_CACHE_FRAGMENT
 } from "./BookProfileQueries";
 
 // hooks
@@ -45,19 +46,35 @@ const BookProfileContainer = ({
       star: star
     },
     update: (store, { data: { addReview } }) => {
-      const data = store.readFragment({
+      const cacheBook = store.readFragment({
         id: "Book:" + bookData.bookByTitle.id,
-        fragment: REVIEWS_CACHE_FRAGMENT
+        fragment: BOOK_REVIEWS_CACHE_FRAGMENT
       });
 
       store.writeFragment({
         id: "Book:" + bookData.bookByTitle.id,
-        fragment: REVIEWS_CACHE_FRAGMENT,
+        fragment: BOOK_REVIEWS_CACHE_FRAGMENT,
         data: {
-          avgStar: (data.avgStar * data.reviewCount + addReview.star) / (data.reviewCount + 1),
-          reviewCount: data.reviewCount + 1,
-          reviews: [...data.reviews, addReview],
-          __typename: data.__typename
+          avgStar:
+            (cacheBook.avgStar * cacheBook.reviewCount + addReview.star) /
+            (cacheBook.reviewCount + 1),
+          reviewCount: cacheBook.reviewCount + 1,
+          reviews: [...cacheBook.reviews, addReview],
+          __typename: cacheBook.__typename
+        }
+      });
+
+      const cacheUser = store.readFragment({
+        id: "User:" + addReview.user.id,
+        fragment: USER_REVIEWS_CACHE_FRAGMENT
+      });
+
+      store.writeFragment({
+        id: "User:" + addReview.user.id,
+        fragment: USER_REVIEWS_CACHE_FRAGMENT,
+        data: {
+          reviews: [...cacheUser.reviews, addReview],
+          __typename: cacheUser.__typename
         }
       });
     }

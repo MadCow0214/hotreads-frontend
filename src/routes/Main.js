@@ -15,6 +15,7 @@ import CategoryBest from "../components/CategoryBest";
 import SwipeableViews from "react-swipeable-views";
 import Slider from "react-slick";
 import BannerPanel from "../components/BannerPanel";
+import Link from "../components/Link";
 
 const GET_BANNER_DATA = gql`
   query getBannerData {
@@ -74,6 +75,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: "10px"
   },
   menuTitle: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
     marginTop: "40px",
     marginBottom: "15px",
     paddingBottom: "10px",
@@ -132,6 +136,11 @@ const Main = props => {
           <Typography variant="h5" component="div">
             분야별 베스트
           </Typography>
+          <Link to={"/book/list"} underline="hover">
+            <Typography variant="caption" component="div">
+              전체보기 >
+            </Typography>
+          </Link>
         </Box>
         <Tabs
           value={categoryIndex}

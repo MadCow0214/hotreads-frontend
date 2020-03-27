@@ -10,7 +10,7 @@ import { useQuery } from "@apollo/react-hooks";
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import BookPreview from "../components/BookPreview";
+import BookList from "../components/BookList";
 import EditUserDialog from "../components/EditUserDialog";
 import Grid from "@material-ui/core/Grid";
 import Loader from "../components/Loader";
@@ -27,24 +27,6 @@ const USER_BY_NICKNAME = gql`
       email
       avatar
       nickName
-      uploadedBooks {
-        id
-        image
-        title
-        author {
-          id
-          name
-        }
-      }
-      wantedBooks {
-        id
-        image
-        title
-        author {
-          id
-          name
-        }
-      }
       reviews {
         id
         book {
@@ -61,6 +43,36 @@ const USER_BY_NICKNAME = gql`
         createdAt
       }
       isSelf
+      wantedBookCount
+      uploadedBookCount
+    }
+  }
+`;
+
+const UPLOADED_BOOKS = gql`
+  query uploadedBooks($nickName: String!, $page: Int!) {
+    uploadedBooks(nickName: $nickName, page: $page) {
+      id
+      image
+      title
+      author {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const WANTED_BOOKS = gql`
+  query wantedBooks($nickName: String!, $page: Int!) {
+    wantedBooks(nickName: $nickName, page: $page) {
+      id
+      image
+      title
+      author {
+        id
+        name
+      }
     }
   }
 `;
@@ -98,12 +110,6 @@ const useStyles = makeStyles(theme => ({
   },
   editButton: {
     marginLeft: "auto"
-  },
-  emptyGrid: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "50vh"
   }
 }));
 
@@ -124,9 +130,23 @@ const UserProfile = ({
 }) => {
   const classes = useStyles();
   const [tabIndex, setTabIndex] = useState(0);
+  const [wantedPage, setWantedPage] = useState(1);
+  const [uploadedPage, setUploadedPage] = useState(1);
   const [editOpen, setEditOpen] = React.useState(false);
   const { data, loading } = useQuery(USER_BY_NICKNAME, {
     variables: { nickName }
+  });
+  const { data: wantedData, loading: wantedLoading } = useQuery(WANTED_BOOKS, {
+    variables: {
+      nickName,
+      page: wantedPage
+    }
+  });
+  const { data: uploadedData, loading: uploadedLoading } = useQuery(UPLOADED_BOOKS, {
+    variables: {
+      nickName,
+      page: uploadedPage
+    }
   });
 
   const handleTabChange = (event, newValue) => {
@@ -146,6 +166,8 @@ const UserProfile = ({
   };
 
   const user = data?.userByNickName;
+  const wantedBooks = wantedData?.wantedBooks;
+  const uploadedBooks = uploadedData?.uploadedBooks;
 
   return (
     <>
@@ -179,9 +201,9 @@ const UserProfile = ({
               indicatorColor="primary"
               textColor="primary"
             >
-              <Tab label="리뷰" />
-              <Tab label="북마크" />
-              <Tab label="업로드" />
+              <Tab label={`리뷰 ${user.reviews.length}`} />
+              <Tab label={`북마크 ${user.wantedBookCount}`} />
+              <Tab label={`업로드 ${user.uploadedBookCount}`} />
             </Tabs>
             <SwipeableViews axis={"x"} index={tabIndex} onChangeIndex={handleTabSwipeChange}>
               <TabPanel>
@@ -200,33 +222,24 @@ const UserProfile = ({
                 </Grid>
               </TabPanel>
               <TabPanel>
-                <Grid container spacing={3}>
-                  {user.wantedBooks.length <= 0 && (
-                    <Grid className={classes.emptyGrid} key="emptyWanted" item xs={12}>
-                      북마크한 책이 없습니다
-                    </Grid>
-                  )}
-                  {user.wantedBooks.map(book => (
-                    <Grid item key={book.id} xs={4} sm={3}>
-                      <BookPreview book={book} />
-                    </Grid>
-                  ))}
-                </Grid>
+                <BookList
+                  books={wantedBooks}
+                  loading={wantedLoading}
+                  messageForNothing="북마크한 책이 없습니다"
+                  page={wantedPage}
+                  pageCount={Math.ceil(user.wantedBookCount / 12)}
+                  onPageChange={(e, newPage) => setWantedPage(newPage)}
+                />
               </TabPanel>
               <TabPanel>
-                <Grid container spacing={3}>
-                  {user.uploadedBooks.length <= 0 && (
-                    <Grid item className={classes.emptyGrid} key="emptyUploaded" xs={12}>
-                      업로드한 책이 없습니다
-                    </Grid>
-                  )}
-                  {user.uploadedBooks.length > 0 &&
-                    user.uploadedBooks.map(book => (
-                      <Grid item key={book.id} xs={4} sm={3}>
-                        <BookPreview book={book} />
-                      </Grid>
-                    ))}
-                </Grid>
+                <BookList
+                  books={uploadedBooks}
+                  loading={uploadedLoading}
+                  messageForNothing="업로드한 책이 없습니다"
+                  page={uploadedPage}
+                  pageCount={Math.ceil(user.uploadedBookCount / 12)}
+                  onPageChange={(e, newPage) => setUploadedPage(newPage)}
+                />
               </TabPanel>
             </SwipeableViews>
           </div>

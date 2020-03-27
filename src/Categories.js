@@ -1,5 +1,4 @@
 export default [
-  { number: 0, text: "선택해 주세요" },
   { number: 1, text: "소설" },
   { number: 2, text: "경영/경제" },
   { number: 3, text: " 인문" },

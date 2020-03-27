@@ -5,7 +5,7 @@ import Main from "../routes/Main";
 import SignIn from "../routes/SignIn";
 import AuthorProfile from "../routes/AuthorProfile";
 import BookProfile from "../routes/BookProfile";
-import BookList from "../routes/BookList";
+import BookList from "../routes/BookListPage";
 import UploadBook from "../routes/UploadBook";
 import UserProfile from "../routes/UserProfile";
 import Search from "../routes/Search";

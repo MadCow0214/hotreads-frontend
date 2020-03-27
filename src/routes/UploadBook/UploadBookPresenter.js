@@ -132,7 +132,7 @@ const UploadBookPresenter = ({
             </Button>
           </div>
           <div className={classes.basicInfoInputs}>
-            <CategorySelector onChange={setCategory} />
+            <CategorySelector unselectedString="선택해 주세요" onChange={setCategory} />
             <Input
               label="제목"
               inputProps={{ maxLength: 50 }}

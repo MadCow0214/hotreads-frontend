@@ -11,7 +11,7 @@ import BookImage from "./BookImage";
 import Grid from "@material-ui/core/Grid";
 import Link from "./Link";
 import Typography from "@material-ui/core/Typography";
-import Rating from "@material-ui/lab/Rating";
+import StarIcon from "@material-ui/icons/Star";
 import Skeleton from "@material-ui/lab/Skeleton";
 
 const CATEGORY_BEST = gql`
@@ -32,8 +32,7 @@ const CATEGORY_BEST = gql`
 
 const useStyles = makeStyles(theme => ({
   item: {
-    display: "flex",
-    margin: "auto"
+    display: "flex"
   },
   number: {
     display: "flex",
@@ -56,12 +55,23 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.grey[600],
     fontSize: "11px"
   },
+  starContainer: {
+    display: "flex"
+  },
+  starIcon: {
+    color: "#F8B32E",
+    fontSize: "18px"
+  },
+  avgStar: {
+    margin: "auto 1px 0px",
+    fontSize: "14px",
+    fontWeight: "500"
+  },
   reviewCount: {
-    fontSize: "8px"
+    margin: "auto 0px 1px",
+    fontSize: "10px"
   }
 }));
-
-const fakeArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const CategoryBest = ({ category }) => {
   const classes = useStyles();
@@ -89,30 +99,28 @@ const CategoryBest = ({ category }) => {
               <Link to={`/author/${book.author.name}`}>
                 <Typography className={classes.author}>{book.author.name}</Typography>
               </Link>
-              <div>
-                <Rating value={book.avgStar} precision={0.1} size="small" readOnly />
-                <Typography className={classes.reviewCount} variant="caption">
-                  ({book.reviewCount})
-                </Typography>
+              <div className={classes.starContainer}>
+                <StarIcon className={classes.starIcon} />
+                <span className={classes.avgStar}>{` ${book.avgStar.toFixed(1)} `}</span>
+                <span className={classes.reviewCount}>({book.reviewCount})</span>
               </div>
             </div>
           </Grid>
         ))}
       {loading &&
-        fakeArray.map(number => (
+        [1, 2, 3, 4, 5, 6, 7, 8, 9].map(number => (
           <Grid item className={classes.item} key={number} xs={6} sm={4}>
             <Skeleton variant="rect" width={120} height={90} />
             <div className={classes.number}>
               <Typography variant="h5">{number}</Typography>
             </div>
             <div className={classes.info}>
-              <Skeleton variant="rect" width={120} height={13} />
-              <Skeleton variant="rect" width={60} height={11} />
-              <div>
-                <Rating value={0} precision={0.1} size="small" readOnly />
-                <Typography className={classes.reviewCount} variant="caption">
-                  ({0})
-                </Typography>
+              <Skeleton variant="rect" height={13} />
+              <Skeleton variant="rect" width="50%" height={11} />
+              <div className={classes.starContainer}>
+                <StarIcon className={classes.starIcon} />
+                <span className={classes.avgStar}>{` 0.0 `}</span>
+                <span className={classes.reviewCount}>(0)</span>
               </div>
             </div>
           </Grid>

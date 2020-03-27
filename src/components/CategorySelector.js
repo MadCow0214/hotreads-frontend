@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CategorySelector = ({ onChange }) => {
+const CategorySelector = ({ unselectedString, onChange }) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -42,6 +42,9 @@ const CategorySelector = ({ onChange }) => {
           MenuProps={{ disableScrollLock: true }}
           disableUnderline
         >
+          <MenuItem key={0} value={0}>
+            {unselectedString}
+          </MenuItem>
           {Categories.map(category => (
             <MenuItem key={category.number} value={category.number}>
               {category.text}
@@ -54,6 +57,7 @@ const CategorySelector = ({ onChange }) => {
 };
 
 CategorySelector.propTypes = {
+  unselectedString: PropTypes.string,
   onChange: PropTypes.func
 };
 

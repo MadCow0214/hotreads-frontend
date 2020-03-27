@@ -83,6 +83,11 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     borderBottom: `2px solid ${theme.palette.grey[500]}`
   },
+  //descBox: {
+  //  height: "20em",
+  //  lineHeight: "1.7rem",
+  //  overflow: "hidden"
+  //},
   slider: {
     height: "220px",
     marginBottom: "30px"
@@ -221,7 +226,12 @@ const BookProfilePresenter = ({
             책 소개
           </Typography>
         </Box>
-        <Typography variant="body1" component="div" style={{ whiteSpace: "pre-line" }}>
+        <Typography
+          className={classes.descBox}
+          variant="body1"
+          component="div"
+          style={{ whiteSpace: "pre-line" }}
+        >
           <Box p={3}>{book.desc}</Box>
         </Typography>
         <Box className={classes.menuTitle}>

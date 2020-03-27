@@ -4,48 +4,62 @@ import { makeStyles } from "@material-ui/core/styles";
 
 // components
 import Box from "@material-ui/core/Box";
-import BookImage from "./BookImage";
+import BookImage, { sizeList } from "./BookImage";
 import Typography from "@material-ui/core/Typography";
 import Link from "./Link";
 import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles(theme => ({
-  image: {},
+  wrapper: {
+    display: "flex"
+  },
+  container: {
+    margin: "auto"
+  },
   title: {
     fontWeight: 700,
     fontSize: "13px",
-    maxWidth: "120px"
+    maxWidth: props => sizeList[props.size].w
   },
   author: {
     fontWeight: 700,
     color: theme.palette.grey[600],
     fontSize: "11px",
-    maxWidth: "120px"
+    maxWidth: props => sizeList[props.size].w
   }
 }));
 
 const BookPreview = ({ className, book, imageSize }) => {
-  const classes = useStyles();
+  const classes = useStyles({ size: imageSize });
 
   return (
     <>
       {book && (
-        <Box className={className}>
-          <Link to={`/book/${book?.title}`}>
-            <BookImage className={classes.image} src={book?.image} size={imageSize} />
-            <Typography className={classes.title}>{book?.title}</Typography>
-          </Link>
-          <Link to={`/author/${book?.author?.name}`}>
-            <Typography className={classes.author}>{book?.author?.name}</Typography>
-          </Link>
-        </Box>
+        <div className={`${classes.wrapper} ${className}`}>
+          <Box className={classes.container}>
+            <Link to={`/book/${book?.title}`}>
+              <BookImage className={classes.image} src={book?.image} size={imageSize} />
+              <Typography className={classes.title}>{book?.title}</Typography>
+            </Link>
+            <Link to={`/author/${book?.author?.name}`}>
+              <Typography className={classes.author}>{book?.author?.name}</Typography>
+            </Link>
+          </Box>
+        </div>
       )}
       {!book && (
-        <Box className={className}>
-          <Skeleton className={classes.image} variant="rect" width={160} height={240} />
-          <Skeleton variant="rect" width={120} height={13} />
-          <Skeleton variant="rect" width={60} height={11} />
-        </Box>
+        <div className={className}>
+          <Box>
+            <Skeleton
+              className={classes.image}
+              variant="rect"
+              width={sizeList[imageSize].w}
+              height={sizeList[imageSize].h}
+            />
+            <Skeleton variant="rect" width={sizeList[imageSize].w * 0.8} height={13} />
+            <Skeleton variant="rect" width={sizeList[imageSize].w * 0.5} height={11} />
+          </Box>
+        </div>
       )}
     </>
   );

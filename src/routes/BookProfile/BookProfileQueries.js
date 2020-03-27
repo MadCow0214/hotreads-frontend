@@ -62,10 +62,20 @@ export const TOGGLE_WANTED = gql`
   }
 `;
 
-export const REVIEWS_CACHE_FRAGMENT = gql`
+export const BOOK_REVIEWS_CACHE_FRAGMENT = gql`
   fragment reviewedBook on Book {
     avgStar
     reviewCount
+    reviews {
+      id
+      __typename
+    }
+    __typename
+  }
+`;
+
+export const USER_REVIEWS_CACHE_FRAGMENT = gql`
+  fragment reviewsOfUser on User {
     reviews {
       id
       __typename

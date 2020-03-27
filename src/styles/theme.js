@@ -67,6 +67,12 @@ const theme = createMuiTheme({
       sizeSmall: {
         fontSize: "0.8rem"
       }
+    },
+    MuiPagination: {
+      ul: {
+        display: "flex",
+        justifyContent: "center"
+      }
     }
   },
   typography: {
