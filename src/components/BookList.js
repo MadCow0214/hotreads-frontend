@@ -1,6 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
+// hooks
+import { useTheme } from "@material-ui/core/styles";
+import { useMediaQuery } from "@material-ui/core";
+
 // components
 import BookPreview from "./BookPreview";
 import Grid from "@material-ui/core/Grid";
@@ -55,6 +59,8 @@ const useStyles = makeStyles(theme => ({
 
 const BookList = ({ books, loading, messageForNothing, page, pageCount, onPageChange }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
   return (
     <>
@@ -73,7 +79,7 @@ const BookList = ({ books, loading, messageForNothing, page, pageCount, onPageCh
           {books.length > 0 &&
             books.map(book => (
               <Grid item key={book.id} xs={4} sm={3}>
-                <BookPreview book={book} />
+                <BookPreview book={book} imageSize={!matches ? "xs" : "sm"} />
               </Grid>
             ))}
         </Grid>
