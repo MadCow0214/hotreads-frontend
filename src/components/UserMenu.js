@@ -6,6 +6,8 @@ import { ME } from "../sharedQueries";
 
 // hooks
 import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useTheme } from "@material-ui/core/styles";
+import { useMediaQuery } from "@material-ui/core";
 
 // components
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -28,19 +30,23 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     alignItems: "center",
-    position: "relative"
-  },
-  avatar: {
-    width: theme.spacing(4),
-    height: theme.spacing(4),
-    marginRight: "5px"
-  },
-  nickName: {
-    color: "white",
-    fontWeight: 500,
+    position: "relative",
     "&:hover": {
       cursor: "pointer"
     }
+  },
+  avatar: {
+    width: theme.spacing(4),
+    height: theme.spacing(4)
+  },
+  nickName: {
+    color: "white",
+    marginLeft: "5px",
+    fontWeight: 500
+  },
+  arrow: {
+    color: "white",
+    fontWeight: 500
   },
   icon: {
     marginRight: "5px"
@@ -49,6 +55,8 @@ const useStyles = makeStyles(theme => ({
 
 const UserMenu = props => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { data } = useQuery(ME);
   const [logOutMutation] = useMutation(LOG_OUT);
@@ -85,8 +93,10 @@ const UserMenu = props => {
     <>
       <Box className={classes.root} aria-haspopup="true" onClick={handleOpen}>
         <Avatar className={classes.avatar} src={data?.me ? data.me.avatar : ""} />
-        <Typography className={classes.nickName}>{data?.me ? data.me.nickName : ""}</Typography>
-        <ArrowDropDownIcon className={classes.nickName} />
+        {matches && (
+          <Typography className={classes.nickName}>{data?.me ? data.me.nickName : ""}</Typography>
+        )}
+        <ArrowDropDownIcon className={classes.arrow} />
       </Box>
       <Menu
         id="simple-menu"

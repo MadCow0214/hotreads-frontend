@@ -2,6 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 
+// hooks
+import { useTheme } from "@material-ui/core/styles";
+import { useMediaQuery } from "@material-ui/core";
+
 // components
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
@@ -59,6 +63,8 @@ const useStyles = makeStyles(theme => ({
 
 const Header = ({ isLoggedIn }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
   return (
     <div className={classes.root}>
