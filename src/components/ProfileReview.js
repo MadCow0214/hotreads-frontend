@@ -26,11 +26,6 @@ const useStyles = makeStyles(theme => ({
   },
   reviewColumn: {
     padding: "0px 5px",
-    "&:first-child": {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center"
-    },
     "&:last-child": {
       display: "flex",
       flexDirection: "column",
@@ -61,7 +56,7 @@ const ProfileReview = ({ review }) => {
 
   return (
     <div className={classes.root}>
-      {!matches && (
+      {matches && (
         <Box className={classes.reviewColumn}>
           <Link to={`/book/${review.book.title}`}>
             <BookImage src={review.book.image} size="xxs" />
