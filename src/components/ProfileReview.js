@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "flex-start",
     alignItems: "flex-start",
     width: "100%",
-    padding: "10px 10px",
+    padding: "10px 0px",
     "&:not(last-child)": {
       borderBottom: "1px solid rgba(0,0,0,0.25)"
     }

@@ -98,13 +98,13 @@ const useStyles = makeStyles(theme => ({
   },
   writeReviewContainer: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: "5px"
   },
   reviewTextArea: {
     resize: "none",
     width: "100%",
     height: "80px",
-    margin: "0 10px",
     padding: "10px",
     fontSize: "16px",
     borderRadius: "5px",
@@ -270,29 +270,41 @@ const BookProfilePresenter = ({
             리뷰
           </Typography>
         </Box>
-        <form className={classes.writeReviewContainer} onSubmit={onReviewSubmit}>
-          <Rating
-            name="star"
-            value={star}
-            precision={1}
-            onChange={onStarChange}
-            disabled={!isLoggedIn}
-          />
-          <textarea
-            className={classes.reviewTextArea}
-            disabled={!isLoggedIn}
-            maxLength="200"
-            onChange={onReviewTextChange}
-            value={reviewText}
-            placeholder={
-              isLoggedIn
-                ? "리뷰를 작성해 주세요 (최대 200자)"
-                : "리뷰를 작성하시려면 로그인 해주세요"
-            }
-          ></textarea>
-          <Button type="submit" variant="contained" color="primary" disabled={!isLoggedIn}>
-            등록
-          </Button>
+        <form onSubmit={onReviewSubmit}>
+          <Grid container>
+            <Grid item className={classes.writeReviewContainer} xs={12} sm={2}>
+              <Rating
+                name="star"
+                value={star}
+                precision={1}
+                onChange={onStarChange}
+                disabled={!isLoggedIn}
+              />
+            </Grid>
+            <Grid item className={classes.writeReviewContainer} xs={12} sm={10}>
+              <textarea
+                className={classes.reviewTextArea}
+                disabled={!isLoggedIn}
+                maxLength="200"
+                onChange={onReviewTextChange}
+                value={reviewText}
+                placeholder={
+                  isLoggedIn
+                    ? "리뷰를 작성해 주세요 (최대 200자)"
+                    : "리뷰를 작성하시려면 로그인 해주세요"
+                }
+              ></textarea>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={!isLoggedIn}
+                style={{ marginLeft: "10px" }}
+              >
+                등록
+              </Button>
+            </Grid>
+          </Grid>
         </form>
         {book.reviews?.length > 0 && (
           <ul className={classes.reviewList}>

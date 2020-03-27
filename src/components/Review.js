@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Avartar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import Link from "./Link";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,24 +16,14 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "flex-start",
     alignItems: "flex-start",
     width: "100%",
-    padding: "10px 20px"
-  },
-  reviewColumn: {
-    "&:first-child": {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center"
-    },
-    "&:last-child": {
-      marginLeft: "auto"
+    padding: "15px 0px",
+    "&:not(last-child)": {
+      borderBottom: "1px solid rgba(0,0,0,0.25)"
     }
   },
   userName: {
     fontSize: "14px",
     fontWeight: "600"
-  },
-  text: {
-    padding: "0 20px"
   },
   user: {
     display: "flex",
@@ -54,31 +45,31 @@ const Review = ({ review }) => {
 
   return (
     <div className={classes.root}>
-      <Box className={classes.reviewColumn}>
-        <Link to={`/user/${review.user.nickName}`} className={classes.user}>
-          <Avartar className={classes.avatar} src={review.user.avatar} />
-          <Typography className={classes.userName} variant="subtitle2" component="div" noWrap>
-            {review.user.nickName}
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={2}>
+          <Link to={`/user/${review.user.nickName}`} className={classes.user}>
+            <Avartar className={classes.avatar} src={review.user.avatar} />
+            <Typography className={classes.userName} variant="subtitle2" component="div" noWrap>
+              {review.user.nickName}
+            </Typography>
+          </Link>
+          <Rating
+            value={review.star}
+            precision={0.5}
+            className={classes.star}
+            size="small"
+            readOnly
+          />
+          <Typography variant="caption" component="div">
+            {formatDate(review.createdAt)}
           </Typography>
-        </Link>
-        <Typography variant="caption" component="div">
-          {formatDate(review.createdAt)}
-        </Typography>
-      </Box>
-      <div className={classes.reviewColumn}>
-        <Typography className={classes.text} variant="body1" component="div">
-          {review.text}
-        </Typography>
-      </div>
-      <div className={classes.reviewColumn}>
-        <Rating
-          value={review.star}
-          precision={0.5}
-          className={classes.star}
-          size="small"
-          readOnly
-        />
-      </div>
+        </Grid>
+        <Grid item xs={12} sm={10}>
+          <Typography variant="body1" component="div">
+            {review.text}
+          </Typography>
+        </Grid>
+      </Grid>
     </div>
   );
 };
