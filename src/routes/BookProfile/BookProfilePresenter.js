@@ -167,8 +167,8 @@ const BookProfilePresenter = ({
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: Math.min(4, sliderLength),
-    slidesToScroll: Math.min(4, sliderLength),
+    slidesToShow: Math.min(!matches ? 2 : 4, sliderLength),
+    slidesToScroll: Math.min(!matches ? 2 : 4, sliderLength),
     adaptiveHeight: true,
     arrows: false
   };
