@@ -9,7 +9,6 @@ import { useQuery } from "@apollo/react-hooks";
 //components
 import CategorySelector from "../components/CategorySelector";
 import BookList from "../components/BookList";
-import Typography from "@material-ui/core/Typography";
 
 const BOOK_LIST = gql`
   query bookList($category: Int!, $page: Int!) {

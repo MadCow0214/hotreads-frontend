@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { gql } from "apollo-boost";
 import { makeStyles } from "@material-ui/core/styles";
+import { sizeList } from "../components/BookImage";
 
 // hooks
 import { useQuery } from "@apollo/react-hooks";
@@ -34,7 +35,8 @@ const CATEGORY_BEST = gql`
 
 const useStyles = makeStyles(theme => ({
   item: {
-    display: "flex"
+    display: "flex",
+    flexDirection: props => (props.smallScreen ? "column" : "row")
   },
   number: {
     display: "flex",
@@ -77,9 +79,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const CategoryBest = ({ category }) => {
-  const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const classes = useStyles({ smallScreen: !matches });
   const { data, loading } = useQuery(CATEGORY_BEST, { variables: { category } });
 
   if (data?.categoryBest) {
@@ -101,10 +103,14 @@ const CategoryBest = ({ category }) => {
             )}
             <div className={classes.info}>
               <Link to={`/book/${book?.title}`}>
-                <Typography className={classes.title}>{book?.title}</Typography>
+                <Typography className={classes.title} noWrap>
+                  {book?.title}
+                </Typography>
               </Link>
               <Link to={`/author/${book.author.name}`}>
-                <Typography className={classes.author}>{book.author.name}</Typography>
+                <Typography className={classes.author} noWrap>
+                  {book.author.name}
+                </Typography>
               </Link>
               <div className={classes.starContainer}>
                 <StarIcon className={classes.starIcon} />
@@ -117,10 +123,12 @@ const CategoryBest = ({ category }) => {
       {loading &&
         [1, 2, 3, 4, 5, 6, 7, 8, 9].map(number => (
           <Grid item className={classes.item} key={number} xs={6} sm={4}>
-            <Skeleton variant="rect" width={120} height={90} />
-            <div className={classes.number}>
-              <Typography variant="h5">{number}</Typography>
-            </div>
+            <Skeleton variant="rect" width={sizeList["xxs"].w * 2} height={sizeList["xxs"].h} />
+            {matches && (
+              <div className={classes.number}>
+                <Typography variant="h5">{number}</Typography>
+              </div>
+            )}
             <div className={classes.info}>
               <Skeleton variant="rect" height={13} />
               <Skeleton variant="rect" width="50%" height={11} />

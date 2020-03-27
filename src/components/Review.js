@@ -6,7 +6,6 @@ import { formatDate } from "../util";
 import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
 import Avartar from "@material-ui/core/Avatar";
-import Box from "@material-ui/core/Box";
 import Link from "./Link";
 import Grid from "@material-ui/core/Grid";
 
