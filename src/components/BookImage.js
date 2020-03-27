@@ -7,7 +7,7 @@ import Box from "@material-ui/core/Box";
 
 export const sizeList = {
   xxs: { w: 60, h: 90 },
-  xs: { w: 80, h: 135 },
+  xs: { w: 80, h: 120 },
   sm: { w: 120, h: 180 },
   md: { w: 160, h: 240 },
   lg: { w: 200, h: 300 }
