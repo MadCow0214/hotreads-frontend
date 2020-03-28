@@ -18,6 +18,7 @@ import SwipeableViews from "react-swipeable-views";
 import Slider from "react-slick";
 import BannerPanel from "../components/BannerPanel";
 import Link from "../components/Link";
+import Helmet from "react-helmet";
 
 const GET_BANNER_DATA = gql`
   query getBannerData($bannerLength: Int!) {
@@ -129,6 +130,9 @@ const Main = props => {
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>Hotread</title>
+      </Helmet>
       <div className={classes.container}>
         <Slider className={classes.slider} {...sliderSettings}>
           <BannerPanel

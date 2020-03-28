@@ -13,6 +13,7 @@ import Container from "@material-ui/core/Container";
 import Input from "../components/Input";
 import VerifyUser from "../components/VerifyUser";
 import Link from "../components/Link";
+import Helmet from "react-helmet";
 
 const REGISTER_USER = gql`
   mutation registerUser($nickName: String!, $email: String!, $password: String!) {
@@ -26,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     background: theme.palette.grey[100],
     minHeight: "100vh",
-    paddingTop: "70px",
+    paddingTop: "100px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
@@ -76,6 +77,9 @@ const SignUp = () => {
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>회원가입 | Hotread</title>
+      </Helmet>
       {isVerifying && <VerifyUser email={email.value} />}
       {!isVerifying && (
         <Container className={classes.container}>

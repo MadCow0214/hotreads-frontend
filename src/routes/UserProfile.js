@@ -21,6 +21,7 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import SwipeableViews from "react-swipeable-views";
 import ProfileReview from "../components/ProfileReview";
+import Helmet from "react-helmet";
 
 const USER_BY_NICKNAME = gql`
   query userByNickName($nickName: String!) {
@@ -86,7 +87,7 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.grey[100],
     width: "100%",
     minHeight: "100vh",
-    paddingTop: "110px"
+    paddingTop: "140px"
   },
   container: {
     display: "flex",
@@ -178,6 +179,9 @@ const UserProfile = ({
 
   return (
     <>
+      <Helmet>
+        <title>{nickName} | Hotread</title>
+      </Helmet>
       {loading && !user && <Loader />}
       {!loading && user && (
         <div className={classes.root}>

@@ -10,6 +10,7 @@ import { useQuery } from "@apollo/react-hooks";
 import Typography from "@material-ui/core/Typography";
 import Loader from "../components/Loader";
 import BookList from "../components/BookList";
+import Helmet from "react-helmet";
 
 const AUTHOR_BY_NAME = gql`
   query authorByName($name: String!) {
@@ -39,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.grey[100],
     width: "100%",
     minHeight: "100vh",
-    paddingTop: "110px"
+    paddingTop: "140px"
   },
   container: {
     display: "flex",
@@ -75,6 +76,9 @@ const AuthorProfile = ({
 
   return (
     <>
+      <Helmet>
+        <title>{name} | Hotread</title>
+      </Helmet>
       {loading && <Loader />}
       {!loading && (
         <div className={classes.root}>

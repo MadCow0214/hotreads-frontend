@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router-dom";
 
 // hooks
-import { useTheme } from "@material-ui/core/styles";
-import { useMediaQuery } from "@material-ui/core";
+import { useState } from "react";
 
 // components
 import Box from "@material-ui/core/Box";
@@ -61,10 +61,25 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Header = ({ isLoggedIn }) => {
+const Header = ({ isLoggedIn, history }) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+
+  const onSearchChange = value => {
+    if (typeof value === "string") {
+      history.push("/search");
+      return;
+    }
+
+    if (value.type === "저자") {
+      history.push(`/author/${value.name}`);
+      return;
+    }
+
+    if (value.type === "책") {
+      history.push(`/book/${value.name}`);
+      return;
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -76,7 +91,7 @@ const Header = ({ isLoggedIn }) => {
           </Link>
         </Box>
         <Box className={classes.column}>
-          <SearchInput className={classes.searchInput} />
+          <SearchInput className={classes.searchInput} onChange={onSearchChange} />
         </Box>
         <Box className={classes.column}>
           {isLoggedIn && <UserMenu />}
@@ -99,4 +114,4 @@ Header.defaultProps = {
   isLoggedIn: false
 };
 
-export default Header;
+export default withRouter(Header);

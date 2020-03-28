@@ -13,6 +13,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 
 // components
 import Loader from "../../components/Loader";
+import Helmet from "react-helmet";
 
 const BookProfileContainer = ({
   history,
@@ -144,6 +145,9 @@ const BookProfileContainer = ({
 
   return (
     <>
+      <Helmet>
+        <title>{bookTitle} | Hotread</title>
+      </Helmet>
       {bookLoading && <Loader />}
       {!bookLoading && (
         <BookProfilePresenter

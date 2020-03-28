@@ -9,6 +9,7 @@ import { useQuery } from "@apollo/react-hooks";
 //components
 import CategorySelector from "../components/CategorySelector";
 import BookList from "../components/BookList";
+import Helmet from "react-helmet";
 
 const BOOK_LIST = gql`
   query bookList($category: Int!, $page: Int!) {
@@ -34,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     background: theme.palette.grey[100],
     minHeight: "100vh",
-    paddingTop: "70px",
+    paddingTop: "100px",
     display: "flex",
     justifyContent: "center"
   },
@@ -66,6 +67,9 @@ const BookListPage = () => {
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>Hotread</title>
+      </Helmet>
       <div className={classes.container}>
         <div className={classes.selector}>
           <CategorySelector unselectedString="전체" onChange={setCategory} />

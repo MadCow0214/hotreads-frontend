@@ -13,6 +13,7 @@ import AuthorSelector from "../../components/AuthorSelector";
 import BookImage from "../../components/BookImage";
 import TextariaAutosize from "@material-ui/core/TextareaAutosize";
 import Grid from "@material-ui/core/Grid";
+import Helmet from "react-helmet";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.grey[100],
     width: "100%",
     minHeight: "100vh",
-    paddingTop: "110px"
+    paddingTop: "140px"
   },
   container: {
     display: "flex",
@@ -107,6 +108,9 @@ const UploadBookPresenter = ({
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>책 업로드 | Hotread</title>
+      </Helmet>
       <div className={classes.container}>
         <Grid container spacing={3}>
           <Grid item className={classes.ImageUploaderContainer} xs={12} sm={5}>
