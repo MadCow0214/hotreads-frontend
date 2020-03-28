@@ -12,6 +12,7 @@ import useInput from "../hooks/useInput";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Input from "./Input";
+import Helmet from "react-helmet";
 
 const VERIFY_USER = gql`
   mutation verifyUser($email: String!, $verifyCode: String!) {
@@ -66,6 +67,9 @@ const VerifyUser = ({ email }) => {
 
   return (
     <Container className={classes.container}>
+      <Helmet>
+        <title>계정 확인 | Hotread</title>
+      </Helmet>
       <form onSubmit={onSubmit}>
         <Input
           className={classes.item}

@@ -8,6 +8,7 @@ import Input from "../../components/Input";
 import VerifyUser from "../../components/VerifyUser";
 import Link from "../../components/Link";
 import Helmet from "react-helmet";
+import { LogoIcon, GoogleIcon } from "../../components/Icons";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,13 +22,39 @@ const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
     flexDirection: "column",
-    maxWidth: "400px"
+    alignItems: "center",
+    maxWidth: "340px",
+    border: "1px solid rgba(0,0,0,0.25)",
+    borderRadius: "5px",
+    padding: "20px"
+  },
+  logo: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "56px",
+    height: "56px",
+    background: theme.palette.primary.main,
+    borderRadius: "10px",
+    marginBottom: "20px"
   },
   item: {
     width: "100%",
     "&:not(:first-child)": {
       marginTop: "10px"
     }
+  },
+  text: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "5px",
+    paddingBottom: "20px",
+    borderBottom: "1px solid rgba(0,0,0,0.25)"
+  },
+  googleButon: {
+    width: "100%",
+    marginTop: "29px",
+    background: "white"
   }
 }));
 
@@ -42,12 +69,15 @@ const SignInPresenter = ({
 
   return (
     <div className={classes.root}>
-      <Helmet>
-        <title>로그인 | Hotread</title>
-      </Helmet>
       {verifyEmail && <VerifyUser email={verifyEmail} />}
       {!verifyEmail && (
         <Container className={classes.container}>
+          <Helmet>
+            <title>로그인 | Hotread</title>
+          </Helmet>
+          <div className={classes.logo}>
+            <LogoIcon />
+          </div>
           <form onSubmit={onSubmit}>
             <Input
               className={classes.item}
@@ -66,18 +96,21 @@ const SignInPresenter = ({
             <Button className={classes.item} type="submit" variant="contained" color="primary">
               로그인
             </Button>
+            <div className={classes.text}>
+              {"계정이 없으신가요? "}
+              <Link to="/signup" underline="hover" color="secondary">
+                회원가입
+              </Link>
+            </div>
           </form>
           <Button
-            className={classes.item}
+            className={classes.googleButon}
             variant="contained"
-            color="primary"
             onClick={onGoogleButtonClick}
+            startIcon={<GoogleIcon />}
           >
-            구글
+            Google 계정으로 로그인
           </Button>
-          <Link to="/signup" underline="hover">
-            계정 만들기
-          </Link>
         </Container>
       )}
     </div>
