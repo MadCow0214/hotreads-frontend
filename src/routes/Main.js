@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     background: theme.palette.grey[100],
     minHeight: "100vh",
-    paddingTop: "100px"
+    paddingTop: "70px"
   },
   container: {
     padding: "40px 20px",
