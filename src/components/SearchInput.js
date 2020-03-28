@@ -64,7 +64,6 @@ const SearchInput = props => {
       freeSolo
       disableClearable
       openOnFocus
-      clearOnEscape
       ListboxProps={{ style: { fontSize: "12px", fontWeight: "600" } }}
       id="searchInput"
       onChange={(e, value) => {

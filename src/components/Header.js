@@ -3,9 +3,6 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 
-// hooks
-import { useState } from "react";
-
 // components
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
@@ -66,7 +63,7 @@ const Header = ({ isLoggedIn, history }) => {
 
   const onSearchChange = value => {
     if (typeof value === "string") {
-      history.push("/search");
+      history.push(`/search?term=${value}`);
       return;
     }
 
