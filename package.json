@@ -25,6 +25,7 @@
     "react-scripts": "3.4.0",
     "react-slick": "^0.25.2",
     "react-swipeable-views": "^0.13.9",
+    "react-toastify": "^5.5.0",
     "styled-reset": "^4.1.1"
   },
   "scripts": {

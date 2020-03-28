@@ -2,6 +2,7 @@ import React from "react";
 import { gql } from "apollo-boost";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 //hooks
 import { useRef, useState } from "react";
@@ -67,18 +68,18 @@ const EditUserDialog = ({ user, open, handleClose }) => {
 
   const onSubmit = async () => {
     if (uploading) {
-      console.log("error");
+      toast.warn("업로드 중 입니다. 잠시만 기다려 주세요.");
       return;
     }
 
     if (!image && !newPasswordInput.value) {
-      console.log("바꿀 정보 없음!");
+      handleClose();
       return;
     }
 
     if (newPasswordInput.value) {
       if (newPasswordInput.value !== verifyPasswordInput.value) {
-        console.log("비밀번호 확인 실패");
+        toast.error("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
         return;
       }
     }
@@ -93,7 +94,7 @@ const EditUserDialog = ({ user, open, handleClose }) => {
       const res = await axios.post(process.env.REACT_APP_CONTENTS_SERVER_URL, formData);
 
       if (res.status !== 200) {
-        console.log("error");
+        toast.error("변경에 실패했습니다. 잠시 후 다시 시도해주세요.");
         return;
       }
 
@@ -129,14 +130,14 @@ const EditUserDialog = ({ user, open, handleClose }) => {
       });
 
       if (!result) {
-        console.log("비밀번호 변경 실패! 현재 비밀번호 확인");
+        toast.error("현재 비밀번호가 틀렸습니다. 확인 후 다시 입력해주세요.");
         setUploading(false);
         return;
       }
 
       handleClose();
     } catch {
-      console.log("error");
+      toast.error("변경에 실패했습니다. 잠시 후 다시 시도해주세요.");
     }
 
     setUploading(false);

@@ -2,6 +2,7 @@ import React from "react";
 import { gql } from "apollo-boost";
 import UploadBookPresenter from "./UploadBookPresenter";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 // hooks
 import useInput from "../../hooks/useInput";
@@ -51,22 +52,22 @@ const UploadBookContainer = props => {
   const onSubmit = async event => {
     event.preventDefault();
 
-    if (uploading) {
-      console.log("error");
-      return;
-    }
-
-    setUploading(true);
-
     if (!category) {
-      console.log("error");
+      toast.error("분류를 선택해주세요.");
       return;
     }
 
     if (!author?.id) {
-      console.log("error");
+      toast.error("저자를 선택해주세요.");
       return;
     }
+
+    if (uploading) {
+      toast.warn("잠시만 기다려 주세요...");
+      return;
+    }
+
+    setUploading(true);
 
     let imageUrl = "";
     if (image) {
@@ -76,7 +77,7 @@ const UploadBookContainer = props => {
       const res = await axios.post(process.env.REACT_APP_CONTENTS_SERVER_URL, formData);
 
       if (res.status !== 200) {
-        console.log("error");
+        toast.error("업로드 중 오류가 발생하였습니다.");
         return;
       }
 
@@ -97,7 +98,7 @@ const UploadBookContainer = props => {
         }
       });
     } catch {
-      console.log("error");
+      toast.error("업로드 중 오류가 발생하였습니다.");
     }
 
     props.history.push(`/book/${titleInput.value}`);

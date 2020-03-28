@@ -4,6 +4,7 @@ import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
 import { makeStyles } from "@material-ui/core/styles";
 import { LOCAL_LOG_IN } from "../sharedQueries";
+import { toast } from "react-toastify";
 
 //hooks
 import useInput from "../hooks/useInput";
@@ -52,9 +53,7 @@ const useStyles = makeStyles(theme => ({
   },
   item: {
     width: "100%",
-    "&:not(:first-child)": {
-      marginTop: "10px"
-    }
+    marginTop: "10px"
   },
   text: {
     display: "flex",
@@ -85,7 +84,7 @@ const VerifyUser = ({ email }) => {
     const { data } = await verifyUserMutation();
 
     if (data.verifyUser.error) {
-      console.log("verifyUser error");
+      toast.error("코드가 일치하지 않습니다. 확인 후 다시 입력해주세요.");
       return;
     }
 
@@ -100,11 +99,13 @@ const VerifyUser = ({ email }) => {
       <div className={classes.logo}>
         <LogoIcon />
       </div>
+      <span>{email}</span>
+      <span>받은 메일함을 확인해보세요!</span>
       <form onSubmit={onSubmit}>
         <Input
           className={classes.item}
           type="text"
-          label="Verify Code"
+          label="확인 코드"
           onChange={verifyCode.onChange}
           inputProps={{ maxLength: 40 }}
           required

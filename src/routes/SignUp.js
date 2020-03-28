@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import { gql } from "apollo-boost";
 import { makeStyles } from "@material-ui/core/styles";
+import { toast } from "react-toastify";
 
 //hooks
 import { useMutation } from "@apollo/react-hooks";
@@ -84,12 +85,20 @@ const SignUp = () => {
     e.preventDefault();
 
     if (password1.value !== password2.value) {
+      toast.error("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
       return;
     }
 
     const { data } = await registerUserMutation();
 
-    if (data.registerUser.error) {
+    if (data.registerUser.error === 1) {
+      toast.error("이미 존재하는 닉네임입니다. 다른 닉네임을 입력해주세요.");
+      return;
+    }
+
+    if (data.registerUser.error === 2) {
+      toast.error("이미 가입한 이메일입니다. 로그인해주세요.");
+      return;
     }
 
     setIsVerifying(true);

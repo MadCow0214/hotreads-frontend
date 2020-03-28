@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import { gql } from "apollo-boost";
-import { useMutation } from "@apollo/react-hooks";
-
 import { LOCAL_LOG_IN } from "../../sharedQueries";
+import { toast } from "react-toastify";
 
-import SignInPresenter from "./SignInPresenter";
+import { useMutation } from "@apollo/react-hooks";
 import { useGoogleLogin } from "react-google-login";
 import useInput from "../../hooks/useInput";
+
+import SignInPresenter from "./SignInPresenter";
 
 const GOOGLE_LOGIN = gql`
   mutation googleLogin($tokenId: String!) {
@@ -35,7 +36,7 @@ const SignInContainer = props => {
   const [localLoginMutation] = useMutation(LOCAL_LOG_IN);
 
   const onGoogleLoginFailure = () => {
-    console.log("google Failure");
+    toast.error("구글 로그인 초기화 실패");
   };
 
   const onGoogleLoginSuccess = async response => {
@@ -45,7 +46,7 @@ const SignInContainer = props => {
       localLoginMutation({ variables: { token: data.googleLogin } });
       props.history.push("/");
     } catch {
-      console.log("login error!");
+      toast.error("로그인 에러!");
       return;
     }
   };
@@ -78,12 +79,13 @@ const SignInContainer = props => {
     });
 
     if (data.login.error === 1) {
-      console.log("login error!");
+      toast.error("가입되지 않은 이메일입니다. 회원가입 후에 진행해주세요.");
+      props.history.push("/signup");
       return;
     }
 
     if (data.login.error === 2) {
-      console.log("login error!");
+      toast.error("비밀번호가 일치하지 않습니다. 확인 후 다시 시도해주세요.");
       return;
     }
 

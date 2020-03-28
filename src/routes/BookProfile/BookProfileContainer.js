@@ -7,6 +7,7 @@ import {
   BOOK_REVIEWS_CACHE_FRAGMENT,
   USER_REVIEWS_CACHE_FRAGMENT
 } from "./BookProfileQueries";
+import { toast } from "react-toastify";
 
 // hooks
 import { useQuery, useMutation } from "@apollo/react-hooks";
@@ -90,17 +91,17 @@ const BookProfileContainer = ({
     event.preventDefault();
 
     if (!isLoggedIn) {
-      console.log("please log in!");
+      toast.warn("로그인 후에 시도해주세요.");
       return;
     }
 
     if (bookLoading) {
-      console.log("wait!");
+      toast.warn("잠시만 기다려 주세요.");
       return;
     }
 
     if (togglingWanted) {
-      console.log("wait!");
+      toast.warn("잠시만 기다려 주세요.");
       return;
     }
 
@@ -129,12 +130,12 @@ const BookProfileContainer = ({
     e.preventDefault();
 
     if (bookLoading) {
-      console.log("wait!");
+      toast.warn("잠시만 기다려 주세요.");
       return;
     }
 
     if (addingReview) {
-      console.log("wait!");
+      toast.warn("잠시만 기다려 주세요.");
       return;
     }
 
