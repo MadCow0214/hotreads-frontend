@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.grey[100],
     width: "100%",
     minHeight: "100vh",
-    paddingTop: "140px"
+    paddingTop: "110px"
   },
   container: {
     display: "flex",

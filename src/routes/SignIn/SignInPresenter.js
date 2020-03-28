@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     background: theme.palette.grey[100],
     minHeight: "85vh",
-    paddingTop: "100px",
+    paddingTop: "70px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
