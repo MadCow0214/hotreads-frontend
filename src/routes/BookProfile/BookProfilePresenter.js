@@ -47,6 +47,9 @@ const useStyles = makeStyles(theme => ({
   category: {
     marginBottom: "20px"
   },
+  bookTitle: {
+    fontWeight: "600"
+  },
   ratingContainer: {
     display: "flex",
     margin: "20px 0px",
@@ -158,9 +161,9 @@ const BookProfilePresenter = ({
   onReviewTextChange,
   onReviewSubmit
 }) => {
-  const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const classes = useStyles({ smallScreen: !matches });
 
   const sliderLength = book.author?.books?.length || 0;
   const sliderSettings = {
@@ -184,7 +187,11 @@ const BookProfilePresenter = ({
             <Typography className={classes.category} variant="subtitle2" component="div">
               {Categories[book.category - 1]?.text}
             </Typography>
-            <Typography variant="h4" component="div">
+            <Typography
+              variant={!matches ? "h5" : "h4"}
+              className={classes.bookTitle}
+              component="div"
+            >
               {book.title}
             </Typography>
             {book.subtitle && (
@@ -244,7 +251,7 @@ const BookProfilePresenter = ({
         </Typography>
         <Box className={classes.menuTitle}>
           <Link to={`/author/${book.author.name}`}>
-            <Typography variant="h5" component="div">
+            <Typography variant="h6" component="div">
               {`저자 - ${book.author.name}`}
             </Typography>
           </Link>

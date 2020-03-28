@@ -162,7 +162,7 @@ const AuthorSelecter = ({ onChange }) => {
         renderOption={option => option.name}
         style={{ width: 300 }}
         freeSolo
-        renderInput={params => <Input {...params} label="작가 검색" variant="filled" required />}
+        renderInput={params => <Input {...params} label="작가 검색" required />}
       />
       <Dialog
         open={open}

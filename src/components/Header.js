@@ -9,7 +9,7 @@ import { useMediaQuery } from "@material-ui/core";
 // components
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-import Input from "./Input";
+import SearchInput from "../components/SearchInput";
 import Link from "./Link";
 import { LogoIcon, LogoText } from "./Icons";
 import UserMenu from "./UserMenu";
@@ -76,7 +76,7 @@ const Header = ({ isLoggedIn }) => {
           </Link>
         </Box>
         <Box className={classes.column}>
-          <Input className={classes.searchInput} label="제목/저자" />
+          <SearchInput className={classes.searchInput} />
         </Box>
         <Box className={classes.column}>
           {isLoggedIn && <UserMenu />}

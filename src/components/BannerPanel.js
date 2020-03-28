@@ -18,12 +18,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const fakeArray = [null, null, null, null];
-
-const BannerPanel = ({ title, books, loading }) => {
+const BannerPanel = ({ title, books, loading, length }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
+
+  const fakeArray = [];
+  for (let i = 0; i < length; ++i) {
+    fakeArray.push(null);
+  }
 
   return (
     <>
@@ -34,11 +37,7 @@ const BannerPanel = ({ title, books, loading }) => {
         <Grid container spacing={3}>
           {fakeArray.map((book, index) => (
             <Grid item key={index} xs={6} sm={3}>
-              <BookPreview
-                className={classes.bookPreview}
-                book={book}
-                imageSize={!matches ? "sm" : "md"}
-              />
+              <BookPreview className={classes.bookPreview} book={book} imageSize={"md"} />
             </Grid>
           ))}
         </Grid>
@@ -47,11 +46,7 @@ const BannerPanel = ({ title, books, loading }) => {
         <Grid container spacing={3}>
           {books.map(book => (
             <Grid item key={book.id} xs={6} sm={3}>
-              <BookPreview
-                className={classes.bookPreview}
-                book={book}
-                imageSize={!matches ? "sm" : "md"}
-              />
+              <BookPreview className={classes.bookPreview} book={book} imageSize={"md"} />
             </Grid>
           ))}
         </Grid>

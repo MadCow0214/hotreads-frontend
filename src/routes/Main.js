@@ -5,6 +5,8 @@ import Categories from "../Categories";
 
 // hooks
 import { useQuery } from "@apollo/react-hooks";
+import { useTheme } from "@material-ui/core/styles";
+import { useMediaQuery } from "@material-ui/core";
 
 // components
 import Box from "@material-ui/core/Box";
@@ -18,8 +20,8 @@ import BannerPanel from "../components/BannerPanel";
 import Link from "../components/Link";
 
 const GET_BANNER_DATA = gql`
-  query getBannerData {
-    getBannerData {
+  query getBannerData($bannerLength: Int!) {
+    getBannerData(bannerLength: $bannerLength) {
       starBest {
         id
         image
@@ -98,8 +100,13 @@ const TabPanel = props => {
 
 const Main = props => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const [categoryIndex, setCategoryIndex] = useState(0);
-  const { data, loading } = useQuery(GET_BANNER_DATA);
+  const bannerLength = !matches ? 2 : 4;
+  const { data, loading } = useQuery(GET_BANNER_DATA, {
+    variables: { bannerLength }
+  });
 
   const sliderSettings = {
     dots: true,
@@ -124,13 +131,24 @@ const Main = props => {
     <div className={classes.root}>
       <div className={classes.container}>
         <Slider className={classes.slider} {...sliderSettings}>
-          <BannerPanel title="최고 평점" books={data?.getBannerData?.starBest} loading={loading} />
+          <BannerPanel
+            title="최고 평점"
+            books={data?.getBannerData?.starBest}
+            loading={loading}
+            length={bannerLength}
+          />
           <BannerPanel
             title="읽고 싶은 책 베스트"
             books={data?.getBannerData?.wantedBest}
             loading={loading}
+            length={bannerLength}
           />
-          <BannerPanel title="새로운 책" books={data?.getBannerData?.newest} loading={loading} />
+          <BannerPanel
+            title="새로운 책"
+            books={data?.getBannerData?.newest}
+            loading={loading}
+            length={bannerLength}
+          />
         </Slider>
         <Box className={classes.menuTitle}>
           <Typography variant="h5" component="div">
