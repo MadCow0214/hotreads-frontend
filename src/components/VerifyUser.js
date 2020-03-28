@@ -13,6 +13,7 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Input from "./Input";
 import Helmet from "react-helmet";
+import { LogoIcon } from "../components/Icons";
 
 const VERIFY_USER = gql`
   mutation verifyUser($email: String!, $verifyCode: String!) {
@@ -33,12 +34,38 @@ const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
     flexDirection: "column",
-    maxWidth: "400px"
+    alignItems: "center",
+    maxWidth: "340px",
+    border: "1px solid rgba(0,0,0,0.25)",
+    borderRadius: "5px",
+    padding: "20px"
+  },
+  logo: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "56px",
+    height: "56px",
+    background: theme.palette.primary.main,
+    borderRadius: "10px",
+    marginBottom: "20px"
   },
   item: {
     width: "100%",
     "&:not(:first-child)": {
       marginTop: "10px"
+    }
+  },
+  text: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "5px"
+  },
+  sendText: {
+    color: theme.palette.secondary.main,
+    "&:hover": {
+      cursor: "pointer",
+      textDecoration: "underline"
     }
   }
 }));
@@ -70,6 +97,9 @@ const VerifyUser = ({ email }) => {
       <Helmet>
         <title>계정 확인 | Hotread</title>
       </Helmet>
+      <div className={classes.logo}>
+        <LogoIcon />
+      </div>
       <form onSubmit={onSubmit}>
         <Input
           className={classes.item}
@@ -82,7 +112,12 @@ const VerifyUser = ({ email }) => {
         <Button className={classes.item} type="submit" variant="contained" color="primary">
           확인
         </Button>
-        <span onClick={verifyMailMutation}>다시보내기</span>
+        <div className={classes.text}>
+          {"이메일을 받지 못하셨나요? "}
+          <span className={classes.sendText} onClick={verifyMailMutation}>
+            다시보내기
+          </span>
+        </div>
       </form>
     </Container>
   );
