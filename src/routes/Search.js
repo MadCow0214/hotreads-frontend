@@ -75,11 +75,13 @@ const Search = ({ location: { search } }) => {
             작가
           </Typography>
           <div className={classes.authorContainer} style={{ minHeight: "40px" }}>
-            {data?.searchAuthor?.map(author => (
-              <Link key={author.id} to={`/author/${author.name}`}>
-                <Chip label={author.name} clickable style={{ margin: "5px 5px" }} />
-              </Link>
-            ))}
+            {loading && <Chip label="검색중..." />}
+            {!loading &&
+              data?.searchAuthor?.map(author => (
+                <Link key={author.id} to={`/author/${author.name}`}>
+                  <Chip label={author.name} clickable style={{ margin: "5px 5px" }} />
+                </Link>
+              ))}
           </div>
         </Box>
         <Typography variant="h5" component="div" style={{ marginBottom: "20px" }}>
