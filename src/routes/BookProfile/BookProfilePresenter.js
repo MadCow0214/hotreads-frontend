@@ -96,7 +96,7 @@ const useStyles = makeStyles(theme => ({
     borderBottom: `2px solid ${theme.palette.grey[500]}`
   },
   slider: {
-    height: "220px",
+    paddingBottom: "30px",
     marginBottom: "30px"
   },
   tabPanel: {
