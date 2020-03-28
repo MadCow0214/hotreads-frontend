@@ -37,7 +37,11 @@ const BannerPanel = ({ title, books, loading, length }) => {
         <Grid container spacing={3}>
           {fakeArray.map((book, index) => (
             <Grid item key={index} xs={6} sm={3}>
-              <BookPreview className={classes.bookPreview} book={book} imageSize={"md"} />
+              <BookPreview
+                className={classes.bookPreview}
+                book={book}
+                imageSize={!matches ? "sm" : "md"}
+              />
             </Grid>
           ))}
         </Grid>
@@ -46,7 +50,11 @@ const BannerPanel = ({ title, books, loading, length }) => {
         <Grid container spacing={3}>
           {books.map(book => (
             <Grid item key={book.id} xs={6} sm={3}>
-              <BookPreview className={classes.bookPreview} book={book} imageSize={"md"} />
+              <BookPreview
+                className={classes.bookPreview}
+                book={book}
+                imageSize={!matches ? "sm" : "md"}
+              />
             </Grid>
           ))}
         </Grid>
