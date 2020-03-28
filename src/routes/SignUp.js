@@ -14,6 +14,7 @@ import Input from "../components/Input";
 import VerifyUser from "../components/VerifyUser";
 import Link from "../components/Link";
 import Helmet from "react-helmet";
+import { LogoIcon } from "../components/Icons";
 
 const REGISTER_USER = gql`
   mutation registerUser($nickName: String!, $email: String!, $password: String!) {
@@ -35,13 +36,32 @@ const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
     flexDirection: "column",
-    maxWidth: "400px"
+    alignItems: "center",
+    maxWidth: "340px",
+    border: "1px solid rgba(0,0,0,0.25)",
+    borderRadius: "5px",
+    padding: "20px"
+  },
+  logo: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "56px",
+    height: "56px",
+    background: theme.palette.primary.main,
+    borderRadius: "10px",
+    marginBottom: "20px"
   },
   item: {
     width: "100%",
     "&:not(:first-child)": {
       marginTop: "10px"
     }
+  },
+  text: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "5px"
   }
 }));
 
@@ -77,12 +97,15 @@ const SignUp = () => {
 
   return (
     <div className={classes.root}>
-      <Helmet>
-        <title>회원가입 | Hotread</title>
-      </Helmet>
       {isVerifying && <VerifyUser email={email.value} />}
       {!isVerifying && (
         <Container className={classes.container}>
+          <Helmet>
+            <title>회원가입 | Hotread</title>
+          </Helmet>
+          <div className={classes.logo}>
+            <LogoIcon />
+          </div>
           <form onSubmit={onSubmit}>
             <Input
               className={classes.item}
@@ -120,9 +143,12 @@ const SignUp = () => {
               회원 가입
             </Button>
           </form>
-          <Link to="/signin" underline="hover">
-            로그인
-          </Link>
+          <div className={classes.text}>
+            {"이미 회원이신가요? "}
+            <Link to="/signin" underline="hover" color="secondary">
+              로그인
+            </Link>
+          </div>
         </Container>
       )}
     </div>
