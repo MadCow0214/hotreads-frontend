@@ -68,7 +68,7 @@ const ProfileReview = ({ review }) => {
         <Link to={`/author/${review.book.author?.name}`}>
           <Typography className={classes.author}>{review.book.author?.name}</Typography>
         </Link>
-        <Typography>{review.text}</Typography>
+        <Typography variant="body2">{review.text}</Typography>
       </Box>
       <Box className={classes.reviewColumn}>
         <Rating

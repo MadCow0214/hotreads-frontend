@@ -62,7 +62,7 @@ const Review = ({ review }) => {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={10}>
-          <Typography variant="body1" component="div">
+          <Typography variant="body2" component="div">
             {review.text}
           </Typography>
         </Grid>
