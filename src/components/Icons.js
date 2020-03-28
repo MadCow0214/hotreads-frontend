@@ -4,8 +4,8 @@ export const LogoText = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
-    width="190"
-    height="80"
+    width="114"
+    height="54"
     viewBox="340 340 820 350"
     fill="#FBDE67"
   >
@@ -38,8 +38,8 @@ export const LogoIcon = ({ color }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
-    width="50"
-    height="80"
+    width="30"
+    height="48"
     viewBox="120 340 220 350"
     fill={color ? color : "white"}
   >

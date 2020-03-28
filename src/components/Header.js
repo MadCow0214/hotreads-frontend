@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.primary.main,
     display: "flex",
     width: "100%",
-    height: "100px",
+    height: "70px",
     position: "fixed",
     left: 0,
     top: 0,

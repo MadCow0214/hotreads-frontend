@@ -103,7 +103,7 @@ const AuthorSelecter = ({ onChange }) => {
           const timerId = setTimeout(() => {
             setSearchTerm(newValue);
             setSearchTimerId(0);
-          }, 100);
+          }, 200);
 
           setSearchTimerId(timerId);
         }}
@@ -132,7 +132,7 @@ const AuthorSelecter = ({ onChange }) => {
           const filtered = filter(options, params);
 
           if (params.inputValue !== "") {
-            if (searching) {
+            if (searching || searchTimerId) {
               filtered.push({
                 inputValue: params.inputValue,
                 name: "검색중..."

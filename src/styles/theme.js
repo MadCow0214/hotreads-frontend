@@ -29,6 +29,10 @@ const theme = createMuiTheme({
       }
     },
     MuiAutocomplete: {
+      groupLabel: {
+        lineHeight: "1.5rem",
+        fontSize: "14px"
+      },
       inputRoot: {
         paddingTop: "14px  !important"
       }
