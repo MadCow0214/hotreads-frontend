@@ -80,11 +80,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CategoryBest = ({ category }) => {
+const CategoryBest = ({ category, load }) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const classes = useStyles({ smallScreen: !matches });
-  const { data, loading } = useQuery(CATEGORY_BEST, { variables: { category } });
+  const { data, loading } = useQuery(CATEGORY_BEST, { skip: !load, variables: { category } });
 
   if (data?.categoryBest) {
     data.categoryBest.sort((a, b) => b.avgStar - a.avgStar);
@@ -93,6 +93,7 @@ const CategoryBest = ({ category }) => {
   return (
     <Grid container spacing={3}>
       {!loading &&
+        data &&
         data.categoryBest.map((book, index) => (
           <Grid item className={classes.item} key={book.id} xs={6} sm={4}>
             <Link className={classes.image} to={`/book/${book?.title}`}>
@@ -118,7 +119,7 @@ const CategoryBest = ({ category }) => {
             </div>
           </Grid>
         ))}
-      {loading &&
+      {(loading || !data) &&
         [1, 2, 3, 4, 5, 6, 7, 8, 9].map(number => (
           <Grid item className={classes.item} key={number} xs={6} sm={4}>
             <Skeleton variant="rect" width={sizeList["xxs"].w * 2} height={sizeList["xxs"].h} />

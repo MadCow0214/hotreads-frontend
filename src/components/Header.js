@@ -147,7 +147,7 @@ const Header = ({ isLoggedIn, history }) => {
           variant="persistent"
           open={searchBarOpen}
           onClose={() => setSearchBarOpen(false)}
-          disableScrollLock
+          ModalProps={{ disableScrollLock: true }}
         >
           <div className={classes.searchBar}>
             <SearchInput className={classes.searchInput} onChange={onSearchChange} />

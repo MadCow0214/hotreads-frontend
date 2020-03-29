@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { gql } from "apollo-boost";
 import { makeStyles } from "@material-ui/core/styles";
 import Categories from "../Categories";
 
 // hooks
+import { useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { useTheme } from "@material-ui/core/styles";
 import { useMediaQuery } from "@material-ui/core";
@@ -104,6 +105,7 @@ const Main = props => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const [categoryIndex, setCategoryIndex] = useState(0);
+  const [categoryLoad, setCategoryLoad] = useState({ 1: true });
   const bannerLength = !matches ? 2 : 4;
   const { data, loading } = useQuery(GET_BANNER_DATA, {
     variables: { bannerLength }
@@ -121,10 +123,16 @@ const Main = props => {
   };
 
   const handleCategoryChange = (event, newValue) => {
+    let loaded = categoryLoad;
+    loaded[newValue + 1] = true;
+    setCategoryLoad(loaded);
     setCategoryIndex(newValue);
   };
 
   const handleCategorySwipeChange = index => {
+    let loaded = categoryLoad;
+    loaded[index + 1] = true;
+    setCategoryLoad(loaded);
     setCategoryIndex(index);
   };
 
@@ -179,7 +187,10 @@ const Main = props => {
         <SwipeableViews axis={"x"} index={categoryIndex} onChangeIndex={handleCategorySwipeChange}>
           {Categories.filter(category => category.number > 0).map(category => (
             <TabPanel key={category.number}>
-              <CategoryBest category={category.number} />
+              <CategoryBest
+                category={category.number}
+                load={Boolean(categoryLoad[category.number])}
+              />
             </TabPanel>
           ))}
         </SwipeableViews>
