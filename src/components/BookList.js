@@ -90,6 +90,8 @@ const BookList = ({ books, loading, messageForNothing, page, pageCount, onPageCh
         onChange={onPageChange}
         count={pageCount}
         color="primary"
+        siblingCount={2}
+        size={!matches ? "small" : "medium"}
       />
     </>
   );
