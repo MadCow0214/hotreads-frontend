@@ -31,7 +31,10 @@ const CREATE_BOOK = gql`
       desc: $desc
       publishDate: $publishDate
     ) {
-      id
+      error
+      book {
+        id
+      }
     }
   }
 `;
@@ -99,7 +102,7 @@ const UploadBookContainer = props => {
     }
 
     try {
-      await createBookMutaion({
+      const { data } = await createBookMutaion({
         variables: {
           title: titleInput.value,
           subtitle: subtitleInput.value,
@@ -111,8 +114,18 @@ const UploadBookContainer = props => {
           publishDate: date.toString()
         }
       });
+
+      if (data.error) {
+        if (data.error === 1) {
+          toast.warn("이미 등록된 책입니다.");
+        } else {
+          toast.error("업로드 중 오류가 발생하였습니다.");
+          return;
+        }
+      }
     } catch {
       toast.error("업로드 중 오류가 발생하였습니다.");
+      return;
     }
 
     props.history.push(`/book/${titleInput.value}`);
