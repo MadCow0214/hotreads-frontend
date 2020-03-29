@@ -13,7 +13,7 @@ import { LogoIcon, GoogleIcon } from "../../components/Icons";
 const useStyles = makeStyles(theme => ({
   root: {
     background: theme.palette.grey[100],
-    minHeight: "85vh",
+    minHeight: "100vh",
     paddingTop: "70px",
     display: "flex",
     justifyContent: "center",
