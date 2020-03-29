@@ -122,7 +122,7 @@ const CategoryBest = ({ category, load }) => {
       {(loading || !data) &&
         [1, 2, 3, 4, 5, 6, 7, 8, 9].map(number => (
           <Grid item className={classes.item} key={number} xs={6} sm={4}>
-            <Skeleton variant="rect" width={sizeList["xxs"].w * 1.4} height={sizeList["xxs"].h} />
+            <Skeleton variant="rect" width={sizeList["xxs"].w * 2} height={sizeList["xxs"].h} />
             {matches && (
               <div className={classes.number}>
                 <Typography variant="h5">{number}</Typography>
