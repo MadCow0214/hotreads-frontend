@@ -49,11 +49,25 @@ const UploadBookContainer = props => {
 
   const [createBookMutaion] = useMutation(CREATE_BOOK);
 
+  const isToday = someDate => {
+    const today = new Date();
+    return (
+      someDate.getDate() === today.getDate() &&
+      someDate.getMonth() === today.getMonth() &&
+      someDate.getFullYear() === today.getFullYear()
+    );
+  };
+
   const onSubmit = async event => {
     event.preventDefault();
 
     if (!category) {
       toast.error("분류를 선택해주세요.");
+      return;
+    }
+
+    if (isToday(date)) {
+      toast.error("출간일을 선택해주세요.");
       return;
     }
 

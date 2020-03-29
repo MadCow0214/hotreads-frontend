@@ -170,7 +170,7 @@ const AuthorSelecter = ({ onChange }) => {
         aria-labelledby="form-dialog-author"
         disableScrollLock
       >
-        <form onSubmit={handleSubmit}>
+        <div>
           <DialogTitle id="form-dialog-author">작가 추가</DialogTitle>
           <DialogContent>
             <Input
@@ -194,11 +194,11 @@ const AuthorSelecter = ({ onChange }) => {
             <Button onClick={handleClose} color="primary">
               취소
             </Button>
-            <Button type="submit" color="primary">
+            <Button onClick={handleSubmit} color="primary">
               추가
             </Button>
           </DialogActions>
-        </form>
+        </div>
       </Dialog>
     </React.Fragment>
   );

@@ -111,7 +111,7 @@ const UploadBookPresenter = ({
       <Helmet>
         <title>책 업로드 | Hotread</title>
       </Helmet>
-      <div className={classes.container}>
+      <form className={classes.container} onSubmit={onSubmit}>
         <Grid container spacing={3}>
           <Grid item className={classes.ImageUploaderContainer} xs={12} sm={5}>
             <BookImage src={displayImageSrc} size="lg" />
@@ -168,6 +168,7 @@ const UploadBookPresenter = ({
                       cancelLabel: "취소",
                       disableScrollLock: true
                     }}
+                    required
                   />
                 </MuiPickersUtilsProvider>
               </div>
@@ -181,15 +182,10 @@ const UploadBookPresenter = ({
           onChange={descInput.onChange}
           maxLength={5000}
         />
-        <Button
-          className={classes.submitButton}
-          onClick={onSubmit}
-          variant="contained"
-          color="primary"
-        >
+        <Button className={classes.submitButton} type="submit" variant="contained" color="primary">
           업로드
         </Button>
-      </div>
+      </form>
     </div>
   );
 };
