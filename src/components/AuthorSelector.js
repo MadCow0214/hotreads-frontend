@@ -192,10 +192,10 @@ const AuthorSelecter = ({ onChange }) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
-              Cancel
+              취소
             </Button>
             <Button type="submit" color="primary">
-              Add
+              추가
             </Button>
           </DialogActions>
         </form>
