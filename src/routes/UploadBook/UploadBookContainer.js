@@ -119,11 +119,13 @@ const UploadBookContainer = props => {
         if (data.error === 1) {
           toast.warn("이미 등록된 책입니다.");
         } else {
+          setUploading(false);
           toast.error("업로드 중 오류가 발생하였습니다.");
           return;
         }
       }
     } catch {
+      setUploading(false);
       toast.error("업로드 중 오류가 발생하였습니다.");
       return;
     }
