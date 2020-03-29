@@ -115,8 +115,8 @@ const UploadBookContainer = props => {
         }
       });
 
-      if (data.error) {
-        if (data.error === 1) {
+      if (data?.createBook.error) {
+        if (data.createBook.error === 1) {
           toast.warn("이미 등록된 책입니다.");
         } else {
           setUploading(false);
