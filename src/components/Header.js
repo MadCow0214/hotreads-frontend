@@ -3,6 +3,11 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 
+// hooks
+import { useState } from "react";
+import { useTheme } from "@material-ui/core/styles";
+import { useMediaQuery } from "@material-ui/core";
+
 // components
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
@@ -10,6 +15,9 @@ import SearchInput from "../components/SearchInput";
 import Link from "./Link";
 import { LogoIcon, LogoText } from "./Icons";
 import UserMenu from "./UserMenu";
+import SearchIcon from "@material-ui/icons/Search";
+import CloseIcon from "@material-ui/icons/Close";
+import Drawer from "@material-ui/core/Drawer";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,13 +40,16 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: "33%",
-    minWidth: "120px",
     padding: "0 10px",
     "&:first-child": {
+      flexGrow: 1,
       justifyContent: "flex-start"
     },
+    "&:nth-child(2)": {
+      flexGrow: props => (props.smallScreen ? 0 : 2)
+    },
     "&:last-child": {
+      flexGrow: 1,
       justifyContent: "flex-end"
     }
   },
@@ -48,6 +59,25 @@ const useStyles = makeStyles(theme => ({
   homeLink: {
     display: "flex",
     minWidth: "150px"
+  },
+  button: {
+    fontSize: "30px",
+    color: "white",
+    "&:hover": {
+      cursor: "pointer"
+    }
+  },
+  searchBar: {
+    background: theme.palette.primary.main,
+    display: "flex",
+    alignItems: "center",
+    padding: "0px 20px",
+    width: "100%",
+    height: "70px",
+    position: "fixed",
+    left: 0,
+    top: 0,
+    zIndex: 3
   },
   loginText: {
     color: "white",
@@ -59,9 +89,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Header = ({ isLoggedIn, history }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const classes = useStyles({ smallScreen: !matches });
+  const [searchBarOpen, setSearchBarOpen] = useState(false);
 
   const onSearchChange = value => {
+    setSearchBarOpen(false);
+
     if (typeof value === "string") {
       history.push(`/search?term=${value}`);
       return;
@@ -88,9 +123,16 @@ const Header = ({ isLoggedIn, history }) => {
           </Link>
         </Box>
         <Box className={classes.column}>
-          <SearchInput className={classes.searchInput} onChange={onSearchChange} />
+          {matches && <SearchInput className={classes.searchInput} onChange={onSearchChange} />}
         </Box>
         <Box className={classes.column}>
+          {!matches && (
+            <SearchIcon
+              className={classes.button}
+              onClick={() => setSearchBarOpen(true)}
+              style={{ marginRight: "5px" }}
+            />
+          )}
           {isLoggedIn && <UserMenu />}
           {!isLoggedIn && (
             <Link className={classes.loginText} to="/signin" underline="hover">
@@ -99,6 +141,24 @@ const Header = ({ isLoggedIn, history }) => {
           )}
         </Box>
       </Container>
+      {!matches && (
+        <Drawer
+          anchor="top"
+          variant="persistent"
+          open={searchBarOpen}
+          onClose={() => setSearchBarOpen(false)}
+          disableScrollLock
+        >
+          <div className={classes.searchBar}>
+            <SearchInput className={classes.searchInput} onChange={onSearchChange} />
+            <CloseIcon
+              className={classes.button}
+              onClick={() => setSearchBarOpen(false)}
+              style={{ marginLeft: "5px" }}
+            />
+          </div>
+        </Drawer>
+      )}
     </div>
   );
 };

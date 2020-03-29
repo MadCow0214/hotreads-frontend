@@ -121,7 +121,7 @@ const useStyles = makeStyles(theme => ({
   },
   reviewList: {
     listStyleType: "none",
-    padding: "25px 0"
+    padding: "0px 0px 25px"
   },
   NoReview: {
     padding: "25px 0",
