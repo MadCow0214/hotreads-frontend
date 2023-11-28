@@ -55,7 +55,7 @@ const SignInContainer = props => {
     onSuccess: onGoogleLoginSuccess,
     onFailure: onGoogleLoginFailure,
     scope: "profile email",
-    redirect_uri: process.env.REACT_APP_BACKEND_URL,
+    redirect_uri: process.env.REACT_APP_FRONTEND_URL,
     select_account: true,
   });
 
