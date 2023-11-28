@@ -5,7 +5,7 @@ import { LOCAL_LOG_IN } from "../../sharedQueries";
 import { toast } from "react-toastify";
 
 import { useMutation } from "@apollo/react-hooks";
-import { useGoogleLogin } from "react-google-login";
+import { useGoogleLogin } from "@react-oauth/google";
 import useInput from "../../hooks/useInput";
 
 import SignInPresenter from "./SignInPresenter";
@@ -52,18 +52,11 @@ const SignInContainer = props => {
   };
 
   const { signIn: googleLogIn } = useGoogleLogin({
-    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-    cookiePolicy: "single_host_origin",
     onSuccess: onGoogleLoginSuccess,
     onFailure: onGoogleLoginFailure,
     scope: "profile email",
-    accessType: "online",
-    prompt: "",
-    fetchBasicProfile: true,
-    isSignedIn: false,
-    uxMode: "popup",
-    onRequest: () => {},
-    jsSrc: "https://apis.google.com/js/api.js"
+    redirect_uri: process.env.REACT_APP_BACKEND_URL,
+    select_account: true,
   });
 
   const onGoogleButtonClick = e => {
