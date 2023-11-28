@@ -39,9 +39,9 @@ const SignInContainer = props => {
     toast.error("구글 로그인 초기화 실패");
   };
 
-  const onGoogleLoginSuccess = async token => {
+  const onGoogleLoginSuccess = async response => {
     try {
-      const { data } = await googleLoginMutation({ variables: { tokenId: token } });
+      const { data } = await googleLoginMutation({ variables: { tokenId: response.access_token } });
 
       localLoginMutation({ variables: { token: data.googleLogin } });
       props.history.push("/");
