@@ -39,9 +39,9 @@ const SignInContainer = props => {
     toast.error("구글 로그인 초기화 실패");
   };
 
-  const onGoogleLoginSuccess = async response => {
+  const onGoogleLoginSuccess = async token => {
     try {
-      const { data } = await googleLoginMutation({ variables: { tokenId: response.tokenId } });
+      const { data } = await googleLoginMutation({ variables: { tokenId: token } });
 
       localLoginMutation({ variables: { token: data.googleLogin } });
       props.history.push("/");
@@ -55,8 +55,6 @@ const SignInContainer = props => {
     onSuccess: onGoogleLoginSuccess,
     onFailure: onGoogleLoginFailure,
     scope: "profile email",
-    redirect_uri: process.env.REACT_APP_FRONTEND_URL,
-    select_account: true,
   });
 
   const onGoogleButtonClick = e => {
