@@ -51,7 +51,7 @@ const SignInContainer = props => {
     }
   };
 
-  const { signIn: googleLogIn } = useGoogleLogin({
+  const googleLogIn = useGoogleLogin({
     onSuccess: onGoogleLoginSuccess,
     onFailure: onGoogleLoginFailure,
     scope: "profile email",
