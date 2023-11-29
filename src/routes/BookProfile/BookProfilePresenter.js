@@ -221,7 +221,7 @@ const BookProfilePresenter = ({
                 {book.company}
               </Typography>
               <Typography variant="caption" component="span">
-                , {formatDate(new Date(book.publishDate).toString())}
+                , {formatDate(book.publishDate)}
               </Typography>
             </Box>
             <Box className={classes.flex}>
